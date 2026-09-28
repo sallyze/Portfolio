@@ -1,0 +1,96 @@
+---
+import '../styles/global.css';
+import { getImage } from 'astro:assets';
+import BackToTop from '../components/BackToTop.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import photo from '../assets/sally.jpeg';
+import { contacts, person } from '../data/cv';
+import { homePath, useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const site = Astro.site ?? new URL('https://sallyze.dev');
+const canonical = new URL(homePath[lang], site);
+const ogImage = new URL((await getImage({ src: photo, width: 460, height: 460, format: 'jpg' })).src, site);
+
+const profileUrls = contacts.filter((c) => c.id === 'github' || c.id === 'linkedin').map((c) => c.href);
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: person.name,
+  url: new URL('/', site).href,
+  image: ogImage.href,
+  jobTitle: 'Computer Engineering Student',
+  email: 'mailto:sallyze.dev@gmail.com',
+  telephone: '+39 340 196 2592',
+  address: { '@type': 'PostalAddress', addressLocality: 'Turin', addressCountry: 'IT' },
+  affiliation: { '@type': 'CollegeOrUniversity', name: 'Politecnico di Torino', url: 'https://www.polito.it' },
+  sameAs: profileUrls,
+  knowsLanguage: ['fa', 'en', 'az', 'it'],
+};
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{t('meta.title')}</title>
+    <meta name="description" content={t('meta.description')} />
+    <meta name="author" content={person.name} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="en" href={new URL(homePath.en, site)} />
+    <link rel="alternate" hreflang="it" href={new URL(homePath.it, site)} />
+    <link rel="alternate" hreflang="x-default" href={new URL(homePath.en, site)} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <meta property="og:type" content="profile" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={t('meta.title')} />
+    <meta property="og:description" content={t('meta.description')} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content={lang === 'it' ? 'it_IT' : 'en_US'} />
+    <meta name="twitter:card" content="summary" />
+
+    <!-- Runs before first paint so the stored palette never flashes. "auto"
+         leaves data-theme unset and the Scholar pair follows the OS. -->
+    <script is:inline>
+      (() => {
+        const palettes = ['white', 'cream', 'lavender', 'slate', 'midnight', 'night'];
+        let pref = 'auto';
+        try {
+          const stored = localStorage.getItem('theme');
+          if (palettes.includes(stored)) pref = stored;
+        } catch {}
+        if (pref !== 'auto') document.documentElement.dataset.theme = pref;
+        document.documentElement.dataset.themePref = pref;
+      })();
+    </script>
+
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  </head>
+  <body id="top">
+    <a href="#main" class="skip-to-content">{t('skip')}</a>
+    <Header lang={lang} />
+    <main id="main" class="container">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+    <BackToTop lang={lang} />
+  </body>
+</html>
+
+<style>
+  main {
+    flex: 1;
+    padding-top: 2.5rem;
+    padding-bottom: 4rem;
+  }
+</style>

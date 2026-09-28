@@ -1,0 +1,113 @@
+---
+// Scholar's section block: the heading carries a four-point star and a short
+// primary bar that lengthens while the section is hovered or focused.
+// Sizes and weight come from Minrock's section titles.
+import Icon from './Icon.astro';
+
+interface Props {
+  id: string;
+  title: string;
+  more?: { href: string; label: string; newTabLabel: string };
+}
+
+const { id, title, more } = Astro.props;
+---
+
+<section class="section" id={id} aria-labelledby={`${id}-title`}>
+  <div class="section-heading">
+    <h2 class="section-title" id={`${id}-title`}>{title}</h2>
+    {
+      more && (
+        <a class="section-more u-link" href={more.href} target="_blank" rel="noopener noreferrer me">
+          {more.label}
+          <Icon name="arrow-up-right" size={13} />
+          <span class="sr-only">{more.newTabLabel}</span>
+        </a>
+      )
+    }
+  </div>
+  <slot />
+</section>
+
+<style>
+  .section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.35rem;
+    margin-top: 4rem;
+  }
+
+  .section-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem 1.75rem;
+    min-width: 0;
+  }
+
+  .section-title {
+    position: relative;
+    width: fit-content;
+    padding-bottom: 0.2rem;
+    font-size: 1.45rem;
+    letter-spacing: -0.015em;
+    line-height: 1.333;
+  }
+
+  .section-title::before {
+    content: '';
+    position: absolute;
+    top: 0.15em;
+    right: -1.05rem;
+    width: 0.7rem;
+    height: 0.7rem;
+    background: var(--star);
+    clip-path: var(--star-shape);
+    opacity: 0.62;
+    transform: scale(0.82);
+    transition:
+      opacity 260ms var(--ease),
+      transform 260ms var(--ease);
+  }
+
+  .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 3rem;
+    height: 2px;
+    border-radius: 1px;
+    background: var(--primary);
+    opacity: 0.7;
+    transform: scaleX(0.667);
+    transform-origin: left;
+    transition: transform 300ms ease-in-out;
+  }
+
+  .section:hover .section-title::after,
+  .section-heading:focus-within .section-title::after {
+    transform: none;
+  }
+
+  .section:hover .section-title::before,
+  .section-heading:focus-within .section-title::before {
+    opacity: 1;
+    transform: scale(1) rotate(10deg);
+  }
+
+  .section-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.2rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  @media (max-width: 640px) {
+    .section {
+      margin-top: 3.25rem;
+    }
+  }
+</style>

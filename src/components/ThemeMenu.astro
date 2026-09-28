@@ -1,0 +1,124 @@
+---
+// Minrock's theme dropdown, carrying both projects' palettes.
+// Light and dark groups each hold two Minrock palettes and one Scholar palette;
+// "System Auto" follows the OS with the Scholar pair.
+import Icon from './Icon.astro';
+import { useTranslations, type Lang, type UiKey } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+type Option = { id: string; emoji: string; label: UiKey };
+
+const groups: Option[][] = [
+  [
+    { id: 'white', emoji: '☀️', label: 'theme.white' },
+    { id: 'cream', emoji: '📜', label: 'theme.cream' },
+    { id: 'lavender', emoji: '🌿', label: 'theme.lavender' },
+  ],
+  [
+    { id: 'slate', emoji: '⚓', label: 'theme.slate' },
+    { id: 'midnight', emoji: '🌌', label: 'theme.midnight' },
+    { id: 'night', emoji: '🔭', label: 'theme.night' },
+  ],
+  [{ id: 'auto', emoji: '💻', label: 'theme.auto' }],
+];
+---
+
+<div class="menu" data-menu>
+  <button
+    type="button"
+    class="menu-trigger"
+    aria-expanded="false"
+    aria-controls="menu-theme"
+    aria-label={t('menu.theme.label')}
+    title={t('menu.theme.label')}
+    data-label={t('menu.theme.label')}
+    data-theme-trigger
+    data-menu-trigger
+  >
+    <span class="theme-active-icon" aria-hidden="true"></span>
+    <Icon name="chevron-down" size={9} strokeWidth={2.5} class="menu-chevron" />
+  </button>
+
+  <div class="menu-panel" id="menu-theme" data-menu-panel hidden>
+    <p class="menu-heading" id="menu-theme-heading">{t('menu.theme')}</p>
+    <div role="group" aria-labelledby="menu-theme-heading">
+      {
+        groups.map((options, index) => (
+          <>
+            {index > 0 && <div class="menu-divider" />}
+            {options.map((option) => (
+              <button
+                type="button"
+                class="menu-item"
+                data-theme-value={option.id}
+                aria-pressed={option.id === 'auto' ? 'true' : 'false'}
+                data-menu-item
+              >
+                <span class="theme-emoji" aria-hidden="true">
+                  {option.emoji}
+                </span>
+                <span class="theme-name">{t(option.label)}</span>
+                <Icon name="check" size={14} strokeWidth={2.5} class="menu-check" />
+              </button>
+            ))}
+          </>
+        ))
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  .theme-active-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    line-height: 1;
+  }
+
+  /* Driven by the attribute the <head> script sets, so the icon is right on
+     first paint instead of swapping once the module script runs. */
+  .theme-active-icon::before {
+    content: '💻';
+  }
+
+  :global([data-theme-pref='white']) .theme-active-icon::before {
+    content: '☀️';
+  }
+
+  :global([data-theme-pref='cream']) .theme-active-icon::before {
+    content: '📜';
+  }
+
+  :global([data-theme-pref='lavender']) .theme-active-icon::before {
+    content: '🌿';
+  }
+
+  :global([data-theme-pref='slate']) .theme-active-icon::before {
+    content: '⚓';
+  }
+
+  :global([data-theme-pref='midnight']) .theme-active-icon::before {
+    content: '🌌';
+  }
+
+  :global([data-theme-pref='night']) .theme-active-icon::before {
+    content: '🔭';
+  }
+
+  .theme-emoji {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    font-size: 0.95rem;
+    line-height: 1;
+  }
+</style>

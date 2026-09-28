@@ -1,0 +1,128 @@
+---
+// Minrock's footer: a centred row of contact buttons and a single credit line.
+import Icon from './Icon.astro';
+import { contacts, person } from '../data/cv';
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <ul class="footer-socials" aria-label={t('menu.connect.label')}>
+      {
+        contacts.map((contact) => {
+          const external = contact.href.startsWith('http');
+          return (
+            <li>
+              <a
+                href={contact.href}
+                class="footer-social-btn"
+                aria-label={`${t(contact.label)}: ${contact.display}${external ? ` ${t('newTab')}` : ''}`}
+                title={contact.display}
+                target={external ? '_blank' : undefined}
+                rel={external ? 'noopener noreferrer me' : undefined}
+              >
+                <Icon name={contact.icon} size={17} />
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+
+    <p class="footer-copy">
+      <span>© {year} {person.name}</span>
+      <span class="footer-separator" aria-hidden="true">•</span>
+      <span>
+        {t('footer.built')}{' '}
+        <a href="https://astro.build" class="u-link" target="_blank" rel="noopener noreferrer">Astro</a>
+      </span>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: auto;
+    padding: 2.5rem 0 3rem;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.88rem;
+  }
+
+  .footer-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .footer-socials {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  .footer-social-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--control);
+    height: var(--control);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background-color: var(--bg-surface);
+    color: var(--text-muted);
+    transition:
+      color 0.15s ease,
+      border-color 0.15s ease,
+      background-color 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  .footer-social-btn:hover {
+    border-color: var(--accent);
+    background-color: var(--bg-subtle);
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .footer-copy {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .footer-copy a {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .footer-separator {
+    opacity: 0.4;
+  }
+
+  @media (max-width: 480px) {
+    .footer-copy {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .footer-separator {
+      display: none;
+    }
+  }
+</style>

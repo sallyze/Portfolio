@@ -1,0 +1,85 @@
+---
+// Minrock's language dropdown, linking to the real English and Italian pages
+// (Minrock's own version machine-translates through Google).
+import Icon from './Icon.astro';
+import { homePath, languages, useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const codes = Object.keys(languages) as Lang[];
+---
+
+<div class="menu" data-menu>
+  <button
+    type="button"
+    class="menu-trigger"
+    aria-expanded="false"
+    aria-controls="menu-language"
+    aria-label={`${t('menu.language.label')}: ${languages[lang]}`}
+    title={t('menu.language.label')}
+    data-menu-trigger
+  >
+    <Icon name="languages" size={16} />
+    <Icon name="chevron-down" size={9} strokeWidth={2.5} class="menu-chevron" />
+  </button>
+
+  <div class="menu-panel lang-panel" id="menu-language" data-menu-panel hidden>
+    <p class="menu-heading" id="menu-language-heading">{t('menu.language')}</p>
+    <ul class="lang-list" aria-labelledby="menu-language-heading">
+      {
+        codes.map((code) => (
+          <li>
+            <a
+              class="menu-item"
+              href={homePath[code]}
+              hreflang={code}
+              lang={code}
+              aria-current={code === lang ? 'page' : undefined}
+              data-lang-link
+              data-menu-item
+            >
+              {code === 'en' ? (
+                <svg class="flag" width="20" height="14" viewBox="0 0 60 42" aria-hidden="true">
+                  <rect width="60" height="42" fill="#012169" />
+                  <path d="M0 0 60 42M60 0 0 42" stroke="#fff" stroke-width="8" />
+                  <path d="M0 0 60 42M60 0 0 42" stroke="#c8102e" stroke-width="2.6" />
+                  <path d="M30 0v42M0 21h60" stroke="#fff" stroke-width="13" />
+                  <path d="M30 0v42M0 21h60" stroke="#c8102e" stroke-width="7.8" />
+                </svg>
+              ) : (
+                <svg class="flag" width="20" height="14" viewBox="0 0 3 2" preserveAspectRatio="none" aria-hidden="true">
+                  <rect width="1" height="2" fill="#009246" />
+                  <rect x="1" width="1" height="2" fill="#ffffff" />
+                  <rect x="2" width="1" height="2" fill="#ce2b37" />
+                </svg>
+              )}
+              <span>{languages[code]}</span>
+              <Icon name="check" size={14} strokeWidth={2.5} class="menu-check" />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</div>
+
+<style>
+  .lang-panel {
+    min-width: 155px;
+  }
+
+  .lang-list {
+    padding: 0;
+    list-style: none;
+  }
+
+  .flag {
+    flex-shrink: 0;
+    border-radius: 2px;
+    box-shadow: 0 0 0 1px rgb(0 0 0 / 0.18);
+  }
+</style>

@@ -1,0 +1,90 @@
+---
+// Minrock's floating back-to-top button.
+import Icon from './Icon.astro';
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const t = useTranslations(Astro.props.lang);
+---
+
+<button type="button" id="back-to-top" aria-label={t('backToTop')} title={t('backToTop')}>
+  <Icon name="chevron-up" size={18} strokeWidth={2.5} />
+</button>
+
+<style>
+  #back-to-top {
+    position: fixed;
+    right: 2rem;
+    bottom: 2.5rem;
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background-color: var(--bg-surface);
+    color: var(--text-muted);
+    box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      opacity 0.25s ease,
+      color 0.15s ease,
+      background-color 0.15s ease,
+      border-color 0.15s ease,
+      transform 0.15s ease;
+  }
+
+  #back-to-top.visible {
+    opacity: 0.85;
+    pointer-events: auto;
+  }
+
+  #back-to-top.visible:hover {
+    border-color: var(--accent);
+    background-color: var(--bg-subtle);
+    color: var(--accent);
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+
+  @media (max-width: 480px) {
+    #back-to-top {
+      right: 1rem;
+      bottom: 1.25rem;
+    }
+  }
+</style>
+
+<script>
+  const button = document.getElementById('back-to-top')!;
+  let ticking = false;
+
+  const sync = () => {
+    button.classList.toggle('visible', scrollY > 300);
+    ticking = false;
+  };
+
+  addEventListener(
+    'scroll',
+    () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(sync);
+      }
+    },
+    { passive: true },
+  );
+  sync();
+
+  button.addEventListener('click', () => {
+    scrollTo({ top: 0 });
+    document.querySelector<HTMLElement>('.brand')?.focus({ preventScroll: true });
+  });
+</script>

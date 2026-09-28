@@ -1,0 +1,187 @@
+---
+// Scholar's profile header (portrait beside name, then the summary and a row
+// of link squares), set in Minrock's hero sizes.
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import photo from '../assets/sally.jpeg';
+import { contacts, person } from '../data/cv';
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const byId = (id: string) => contacts.find((contact) => contact.id === id)!;
+const email = byId('email');
+const links = ['github', 'linkedin', 'email', 'phone'].map(byId);
+const [role, focus] = person.tagline[lang].split(' | ');
+---
+
+<section class="profile" id="about" aria-labelledby="profile-name">
+  <div class="profile-header">
+    <Image
+      src={photo}
+      alt={t('photo.alt')}
+      widths={[128, 200, 256, 400]}
+      sizes="(min-width: 640px) 200px, 128px"
+      class="profile-avatar"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="profile-content">
+      <h1 class="profile-name" id="profile-name">{person.name}</h1>
+      <p class="profile-tagline">
+        <span>{role}</span>
+        <span>{focus}</span>
+      </p>
+      <p class="profile-meta">
+        <span class="profile-meta-item">
+          <Icon name="map-pin" size={16} />
+          {person.location[lang]}
+        </span>
+        <span class="profile-meta-item">
+          <Icon name="mail" size={16} />
+          <a class="u-link" href={email.href}>{email.display}</a>
+        </span>
+      </p>
+    </div>
+  </div>
+
+  <p class="profile-summary">{person.summary[lang]}</p>
+
+  <div class="profile-actions">
+    <a class="btn btn-primary" href={person.cvFile} download title={t('cv.format')}>
+      <Icon name="download" size={16} />
+      {t('cv.download')}
+    </a>
+    <ul class="profile-links">
+      {
+        links.map((contact) => {
+          const external = contact.href.startsWith('http');
+          return (
+            <li>
+              <a
+                class="icon-btn"
+                href={contact.href}
+                aria-label={`${t(contact.label)}: ${contact.display}${external ? ` ${t('newTab')}` : ''}`}
+                title={contact.display}
+                target={external ? '_blank' : undefined}
+                rel={external ? 'noopener noreferrer me' : undefined}
+              >
+                <Icon name={contact.icon} size={18} />
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .profile {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .profile-avatar {
+    flex-shrink: 0;
+    width: 8rem;
+    height: 8rem;
+    border-radius: 50%;
+    background: var(--bg-subtle);
+    object-fit: cover;
+    outline: 1px solid color-mix(in oklab, var(--text) 12%, transparent);
+    outline-offset: -1px;
+  }
+
+  .profile-content {
+    display: grid;
+    align-content: center;
+    align-self: stretch;
+    gap: 0.6rem;
+  }
+
+  .profile-name {
+    font-size: clamp(2rem, 1.45rem + 2.4vw, 2.4rem);
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+  }
+
+  /* The CV headline's two halves, one per line, so it never breaks mid-phrase. */
+  .profile-tagline {
+    display: flex;
+    flex-direction: column;
+    color: var(--text-muted);
+    font-size: 1.15rem;
+    line-height: 1.5;
+  }
+
+  .profile-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.25rem;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+  }
+
+  .profile-meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .profile-meta-item :global(svg) {
+    flex-shrink: 0;
+  }
+
+  .profile-summary {
+    color: var(--prose);
+    font-size: 1.05rem;
+    line-height: 1.8;
+  }
+
+  .profile-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1rem;
+  }
+
+  .profile-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (max-width: 480px) {
+    .profile-actions .btn {
+      flex: 1 0 100%;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .profile-header {
+      flex-direction: row;
+      gap: 2rem;
+    }
+
+    .profile-avatar {
+      width: 200px;
+      height: 200px;
+    }
+  }
+</style>

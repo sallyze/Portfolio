@@ -1,0 +1,138 @@
+---
+// Scholar's project row. A featured project gets a star in the gutter rather
+// than a badge, echoing the one on section headings.
+import Icon from './Icon.astro';
+import InlineText from './InlineText.astro';
+import { useTranslations, type Lang, type Localized } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  kind: Localized;
+  year: string;
+  repo: string;
+  featured: boolean;
+  points: Localized[];
+  stack: (string | Localized)[];
+}
+
+const { lang, title, kind, year, repo, featured, points, stack } = Astro.props;
+const t = useTranslations(lang);
+const repoPath = new URL(repo).pathname.slice(1);
+---
+
+<article class:list={['project', { 'is-featured': featured }]}>
+  <p class="project-meta">
+    <span>{year}</span>
+    <span aria-hidden="true">·</span>
+    <span>{kind[lang]}</span>
+  </p>
+  <div class="project-head">
+    <h3 class="project-title">
+      {featured && <span class="sr-only">{t('featured')} </span>}
+      {title}
+    </h3>
+    <a class="project-repo" href={repo} target="_blank" rel="noopener noreferrer">
+      <Icon name="github" size={14} />
+      <span class="u-link">{repoPath}</span>
+      <span class="sr-only">{t('newTab')}</span>
+    </a>
+  </div>
+  <ul class="points">
+    {
+      points.map((point) => (
+        <li>
+          <InlineText text={point[lang]} />
+        </li>
+      ))
+    }
+  </ul>
+  <p class="project-stack">{stack.map((item) => (typeof item === 'string' ? item : item[lang])).join(' · ')}</p>
+</article>
+
+<style>
+  .project {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .project-meta {
+    display: flex;
+    gap: 0.35em;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .project-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.15rem 0.85rem;
+    margin-top: 0.15rem;
+  }
+
+  .project-title {
+    position: relative;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.45;
+  }
+
+  .project.is-featured .project-title::before {
+    content: '';
+    position: absolute;
+    top: 0.5em;
+    left: -1.1rem;
+    width: 0.6rem;
+    height: 0.6rem;
+    background: var(--star);
+    clip-path: var(--star-shape);
+    opacity: 0.75;
+    transition:
+      opacity 260ms var(--ease),
+      transform 260ms var(--ease);
+  }
+
+  .project:is(:hover, :focus-within) .project-title::before {
+    opacity: 1;
+    transform: scale(1.5) rotate(25deg);
+  }
+
+  /* Phones have no gutter to spare: the star moves inline, before the title. */
+  @media (max-width: 480px) {
+    .project.is-featured .project-title::before {
+      position: static;
+      display: inline-block;
+      margin-right: 0.4rem;
+      vertical-align: 0.1em;
+    }
+  }
+
+  .project-repo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+  }
+
+  .project-repo:hover {
+    color: var(--accent);
+  }
+
+  .project-repo:hover .u-link {
+    color: var(--accent);
+    text-decoration-color: transparent;
+    background-size: 100% max(1px, 0.0625em);
+  }
+
+  .project-stack {
+    margin-top: 0.6rem;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+  }
+</style>

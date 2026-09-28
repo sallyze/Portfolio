@@ -1,0 +1,88 @@
+---
+// Scholar's timeline row: a primary ring on a dashed rail, the date range in
+// Scholar's uppercase, then the entry itself.
+import { formatMonth, useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  start: string;
+  end: string | null;
+}
+
+const { lang, start, end } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<li class="timeline-item">
+  <div class="timeline-marker" aria-hidden="true">
+    <div class="timeline-line"></div>
+    <div class="timeline-dot"></div>
+  </div>
+  <div class="timeline-content">
+    <p class="timeline-date">
+      <time datetime={start}>{formatMonth(start, lang)}</time>
+      <span aria-hidden="true">–</span>
+      {end ? <time datetime={end}>{formatMonth(end, lang)}</time> : <span>{t('present')}</span>}
+    </p>
+    <slot />
+  </div>
+</li>
+
+<style>
+  .timeline-item {
+    position: relative;
+    display: flex;
+    gap: 0.85rem;
+  }
+
+  .timeline-marker {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    align-items: center;
+  }
+
+  .timeline-dot {
+    width: 0.6rem;
+    height: 0.6rem;
+    margin-top: 0.45rem;
+    border: 2px solid var(--primary);
+    border-radius: 50%;
+    background: var(--bg);
+  }
+
+  .timeline-line {
+    position: absolute;
+    top: 0.6rem;
+    bottom: 0;
+    left: 50%;
+    border-left: 2px dashed var(--border);
+    transform: translateX(-50%);
+  }
+
+  /* Each timeline here has a single, ongoing entry: fade the rail out rather
+     than hiding it, so it reads as continuing. */
+  .timeline-item:last-child .timeline-line {
+    mask-image: linear-gradient(#000 60%, transparent);
+  }
+
+  .timeline-content {
+    flex: 1;
+    min-width: 0;
+    padding-bottom: 0.75rem;
+  }
+
+  .timeline-date {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35em;
+    margin-bottom: 0.2rem;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    font-variant-numeric: tabular-nums;
+    text-transform: uppercase;
+  }
+</style>

@@ -1,0 +1,587 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from './Icon.astro';
+import InlineText from './InlineText.astro';
+import Profile from './Profile.astro';
+import ProjectRow from './ProjectRow.astro';
+import Section from './Section.astro';
+import TimelineItem from './TimelineItem.astro';
+import {
+  certifications,
+  contacts,
+  education,
+  experience,
+  person,
+  projects,
+  skillGroups,
+  spokenLanguages,
+} from '../data/cv';
+import { formatMonth, useTranslations, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const github = contacts.find((contact) => contact.id === 'github')!;
+---
+
+<BaseLayout lang={lang}>
+  <Profile lang={lang} />
+
+  <Section id="experience" title={t('section.experience')}>
+    <ul class="timeline">
+      {
+        experience.map((job) => (
+          <TimelineItem lang={lang} start={job.start} end={job.end}>
+            <h3 class="entry-title">
+              {job.role} <span class="entry-at">@</span>{'\u00a0'}{job.org[lang]}
+            </h3>
+            <p class="entry-place">{job.place}</p>
+            <ul class="points">
+              {job.points.map((point) => (
+                <li>
+                  <InlineText text={point[lang]} />
+                </li>
+              ))}
+            </ul>
+          </TimelineItem>
+        ))
+      }
+    </ul>
+  </Section>
+
+  <Section
+    id="projects"
+    title={t('section.projects')}
+    more={{ href: github.href, label: t('projects.more'), newTabLabel: t('newTab') }}
+  >
+    <div class="projects">
+      {projects.map((project) => <ProjectRow lang={lang} {...project} />)}
+    </div>
+  </Section>
+
+  <Section id="education" title={t('section.education')}>
+    <ul class="timeline">
+      {
+        education.map((entry) => (
+          <TimelineItem lang={lang} start={entry.start} end={entry.end}>
+            <h3 class="entry-title">
+              {entry.degree[lang]} <span class="entry-at">@</span>{'\u00a0'}
+              <a class="u-link" href={entry.url} target="_blank" rel="noopener noreferrer">
+                {entry.school}
+                <span class="sr-only">{t('newTab')}</span>
+              </a>
+            </h3>
+            <p class="entry-place">{entry.location[lang]}</p>
+            <p class="entry-note">
+              <span class="entry-note-label">{t('coursework')}</span> {entry.coursework[lang]}
+            </p>
+          </TimelineItem>
+        ))
+      }
+    </ul>
+  </Section>
+
+  <Section id="certifications" title={t('section.certifications')}>
+    <ul class="certs">
+      {
+        certifications.map((cert) => (
+          <li class="cert">
+            <time class="cert-date" datetime={cert.date}>
+              {formatMonth(cert.date, lang)}
+            </time>
+            <div>
+              <p class="cert-name">{cert.name}</p>
+              <p class="cert-issuer">{cert.issuer}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </Section>
+
+  <Section id="skills" title={t('section.skills')}>
+    <div class="skill-grid">
+      {
+        skillGroups.map((group) => (
+          <div class="skill-card">
+            <h3 class="skill-card-title">
+              <Icon name={group.icon} size={18} />
+              {group.name[lang]}
+            </h3>
+            <ul class="badge-list">
+              {group.items.map((item) => (
+                <li class="badge">{typeof item === 'string' ? item : item[lang]}</li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+      <div class="skill-card">
+        <h3 class="skill-card-title">
+          <Icon name="languages" size={18} />
+          {t('skills.languages')}
+        </h3>
+        <dl class="lang-levels">
+          {
+            spokenLanguages.map((language) => (
+              <div class="lang-level">
+                <dt>{language.name[lang]}</dt>
+                <dd>{language.level[lang]}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+    </div>
+  </Section>
+
+  <Section id="contact" title={t('section.contact')}>
+    <p class="contact-lead">{t('contact.lead')}</p>
+    <ul class="contact-list">
+      {
+        contacts.map((contact) => {
+          const external = contact.href.startsWith('http');
+          return (
+            <li class="contact-card">
+              <span class="contact-icon" aria-hidden="true">
+                <Icon name={contact.icon} size={18} />
+              </span>
+              <span class="contact-label">{t(contact.label)}</span>
+              <a
+                class="contact-link"
+                href={contact.href}
+                target={external ? '_blank' : undefined}
+                rel={external ? 'noopener noreferrer me' : undefined}
+              >
+                {contact.display}
+                {external && <span class="sr-only">{t('newTab')}</span>}
+              </a>
+              {contact.copy && contact.copyLabel && (
+                <button
+                  type="button"
+                  class="copy-btn"
+                  data-copy={contact.copy}
+                  aria-label={t(contact.copyLabel)}
+                  title={t(contact.copyLabel)}
+                >
+                  <Icon name="copy" size={15} class="copy-icon" />
+                  <Icon name="check" size={15} class="copy-done" />
+                </button>
+              )}
+            </li>
+          );
+        })
+      }
+    </ul>
+    <div class="contact-cv">
+      <a class="btn btn-primary" href={person.cvFile} download>
+        <Icon name="download" size={16} />
+        {t('cv.download')}
+      </a>
+      <span class="contact-cv-format">{t('cv.format')}</span>
+    </div>
+    <p class="sr-only" role="status" data-copy-status data-copied={t('copied')}></p>
+  </Section>
+</BaseLayout>
+
+<style>
+  /* ── Timeline entries ── */
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  .entry-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.45;
+  }
+
+  .entry-at {
+    color: var(--text-muted);
+    font-weight: 400;
+  }
+
+  .entry-place {
+    color: var(--text-muted);
+    font-size: 0.92rem;
+  }
+
+  .entry-note {
+    margin-top: 0.6rem;
+    color: var(--prose);
+    font-size: 0.95rem;
+    line-height: 1.65;
+  }
+
+  .entry-note-label {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  /* ── Projects ── */
+  .projects {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+  }
+
+  /* ── Certifications (Scholar's inline updates: date beside text) ── */
+  .certs {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  .cert {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  .cert-date {
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    font-variant-numeric: tabular-nums;
+    text-transform: uppercase;
+  }
+
+  .cert-name {
+    font-weight: 600;
+    line-height: 1.45;
+  }
+
+  .cert-issuer {
+    color: var(--text-muted);
+    font-size: 0.92rem;
+  }
+
+  @media (min-width: 640px) {
+    .cert {
+      flex-direction: row;
+      align-items: baseline;
+      gap: 1rem;
+    }
+
+    .cert-date {
+      flex: 0 0 5.5rem;
+    }
+  }
+
+  /* ── Skills (Scholar's tech-stack cards) ── */
+  .skill-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+
+  @media (min-width: 640px) {
+    .skill-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .skill-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+  }
+
+  .skill-card-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .skill-card-title :global(svg) {
+    flex-shrink: 0;
+    color: var(--accent);
+  }
+
+  .badge-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  .lang-levels {
+    display: grid;
+    gap: 0.3rem;
+    margin: 0;
+    font-size: 0.92rem;
+  }
+
+  .lang-level {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .lang-level dt {
+    font-weight: 500;
+  }
+
+  .lang-level dd {
+    margin: 0;
+    color: var(--text-muted);
+    text-align: right;
+  }
+
+  /* ── Contact (Scholar's joined card group) ── */
+  .contact-lead {
+    color: var(--prose);
+    font-size: 1.05rem;
+  }
+
+  .contact-list {
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    list-style: none;
+    overflow: clip;
+  }
+
+  .contact-card {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    grid-template-columns: 2rem 6.5rem minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 3.5rem;
+    padding: 0.55rem 0.75rem 0.55rem 1rem;
+    transition: background-color 260ms var(--ease);
+  }
+
+  .contact-card + .contact-card {
+    border-top: 1px solid var(--border);
+  }
+
+  /* Scholar's hover border: a primary→accent gradient that flows round the card. */
+  .contact-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    padding: 1px;
+    background: linear-gradient(
+        110deg,
+        transparent 20%,
+        color-mix(in oklab, var(--primary) 82%, transparent) 40%,
+        color-mix(in oklab, var(--accent) 88%, transparent) 50%,
+        color-mix(in oklab, var(--primary) 82%, transparent) 60%,
+        transparent 80%
+      )
+      100% 0 / 300% 100%;
+    opacity: 0;
+    pointer-events: none;
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    transition: opacity 180ms var(--ease);
+  }
+
+  .contact-card:first-child::before {
+    border-radius: 0.75rem 0.75rem 0 0;
+  }
+
+  .contact-card:last-child::before {
+    border-radius: 0 0 0.75rem 0.75rem;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .contact-card:hover {
+      background-color: color-mix(in oklab, var(--bg-subtle) 52%, transparent);
+    }
+
+    .contact-card:hover::before {
+      opacity: 1;
+      animation: card-border-flow 2.4s linear infinite;
+    }
+
+    .contact-card:hover .contact-link {
+      color: var(--accent);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .contact-card:hover::before {
+      animation: none;
+      background-position: 50% 0;
+    }
+  }
+
+  @keyframes card-border-flow {
+    to {
+      background-position: -50% 0;
+    }
+  }
+
+  .contact-card:has(.contact-link:focus-visible) {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+  }
+
+  .contact-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--bg-surface);
+    color: var(--text-muted);
+  }
+
+  .contact-label {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+
+  .contact-link {
+    overflow-wrap: anywhere;
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .contact-link:focus-visible {
+    outline: none;
+  }
+
+  /* The whole row is the link; the copy button sits above it. */
+  .contact-link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .copy-btn {
+    position: relative;
+    z-index: 1;
+    display: inline-grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    padding: 0;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition:
+      color 180ms var(--ease),
+      border-color 260ms var(--ease),
+      background-color 260ms var(--ease);
+  }
+
+  .copy-btn:hover {
+    border-color: var(--border);
+    background: var(--bg-surface);
+    color: var(--accent);
+  }
+
+  .copy-btn :global(svg) {
+    grid-area: 1 / 1;
+  }
+
+  .copy-btn :global(.copy-done),
+  .copy-btn.is-copied :global(.copy-icon) {
+    visibility: hidden;
+  }
+
+  .copy-btn.is-copied :global(.copy-done) {
+    visibility: visible;
+    color: var(--accent);
+  }
+
+  @media (max-width: 560px) {
+    .contact-card {
+      grid-template-columns: 2rem minmax(0, 1fr) auto;
+      row-gap: 0;
+    }
+
+    .contact-icon {
+      grid-row: span 2;
+    }
+
+    .contact-label {
+      grid-column: 2;
+      font-size: 0.8rem;
+      line-height: 1.4;
+    }
+
+    .contact-link {
+      grid-column: 2;
+      grid-row: 2;
+    }
+
+    .copy-btn {
+      grid-column: 3;
+      grid-row: 1 / span 2;
+    }
+  }
+
+  .contact-cv {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1rem;
+  }
+
+  .contact-cv-format {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+</style>
+
+<script>
+  const status = document.querySelector<HTMLElement>('[data-copy-status]');
+
+  for (const button of document.querySelectorAll<HTMLButtonElement>('[data-copy]')) {
+    // The async clipboard API needs a secure context; without it, hide the button.
+    if (!navigator.clipboard) {
+      button.hidden = true;
+      continue;
+    }
+    let timer = 0;
+    button.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(button.dataset.copy!);
+      } catch {
+        return;
+      }
+      button.classList.add('is-copied');
+      if (status) status.textContent = status.dataset.copied ?? '';
+      clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        button.classList.remove('is-copied');
+        if (status) status.textContent = '';
+      }, 1600);
+    });
+  }
+</script>
