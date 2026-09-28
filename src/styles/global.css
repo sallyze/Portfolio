@@ -1,112 +1,43 @@
 /*
   Sally Mohammadzadeh — CV
 
-  Type scale, font stack, top bar and its menus follow Minrock (rnt-rez/minrock).
+  Type scale, font stack and the top bar follow Minrock (rnt-rez/minrock).
   Section anatomy — star-and-bar headings, timelines, project rows, tech-stack
   cards — follows Astro Scholar (mychiffonn/myscholar).
-  Palettes: Scholar's light/dark pair (default) plus Minrock's four.
+  Themes: Minrock's Warm Paper (light) and Scholar Night (dark).
 */
 
 /* ── Palettes ───────────────────────────────────────────────────────────── */
 
-/* Scholar. With no stored choice the page follows the OS through
-   light-dark(), the way Scholar does. Light-mode accent and muted text are
-   a step darker than upstream so they pass WCAG AA (4.5:1) on the page. */
+/* Light is Minrock's Warm Paper, dark is Scholar Night. With no stored choice
+   (System) light-dark() follows the OS; the theme button pins one or the
+   other by setting data-theme on <html>. */
 :root {
-  --bg: light-dark(oklch(0.9578 0.0058 264.53), oklch(0.2007 0.0199 284.46));
-  --bg-surface: light-dark(oklch(0.975 0.004 264.53), oklch(0.235 0.021 284.46));
-  --bg-subtle: light-dark(oklch(0.92 0.006 264.53), oklch(0.28 0.02 284));
-  --text: light-dark(oklch(0.4363 0.0428 281.03), oklch(0.8708 0.0481 273.67));
-  --text-muted: light-dark(oklch(0.5 0.02 281), oklch(0.708 0.02 273));
-  --border: light-dark(oklch(0.88 0.008 270), oklch(1 0 0 / 14%));
-  --accent: light-dark(oklch(0.52 0.14 292.61), oklch(0.797 0.1121 292.61));
-  --accent-hover: light-dark(oklch(0.46 0.15 292.61), oklch(0.86 0.09 292.61));
-  --on-accent: light-dark(oklch(0.9578 0.0058 264.53), oklch(0.145 0 0));
-  --primary: oklch(0.7789 0.1553 140.9);
-  --on-primary: oklch(0.205 0 0);
-  --star: light-dark(
-    color-mix(in oklab, var(--accent) 58%, var(--text)),
-    color-mix(in oklab, var(--primary) 72%, var(--text))
-  );
-  --selection: var(--accent);
-  --selection-text: var(--on-accent);
+  --bg: light-dark(#f7f4ea, oklch(0.2007 0.0199 284.46));
+  --bg-surface: light-dark(#fffdf8, oklch(0.235 0.021 284.46));
+  --bg-subtle: light-dark(#eee7d5, oklch(0.28 0.02 284));
+  --text: light-dark(#292524, oklch(0.8708 0.0481 273.67));
+  --text-muted: light-dark(#57534e, oklch(0.708 0.02 273));
+  --border: light-dark(#e5dac1, oklch(1 0 0 / 14%));
+  --accent: light-dark(#92400e, oklch(0.797 0.1121 292.61));
+  --accent-hover: light-dark(#78350f, oklch(0.86 0.09 292.61));
+  --on-accent: light-dark(#ffffff, oklch(0.145 0 0));
+  /* Warm Paper's single accent doubles as the primary; Scholar Night keeps its green */
+  --primary: light-dark(#92400e, oklch(0.7789 0.1553 140.9));
+  --on-primary: light-dark(#ffffff, oklch(0.205 0 0));
+  --star: light-dark(#92400e, color-mix(in oklab, oklch(0.7789 0.1553 140.9) 72%, oklch(0.8708 0.0481 273.67)));
+  --selection: light-dark(#fde68a, oklch(0.797 0.1121 292.61));
+  --selection-text: light-dark(#292524, oklch(0.145 0 0));
+  --logo-star: #4c9c86; /* the logo's teal, in both themes */
   color-scheme: light dark;
 }
 
-[data-theme="lavender"] {
+[data-theme="light"] {
   color-scheme: light;
 }
 
-[data-theme="night"] {
+[data-theme="dark"] {
   color-scheme: dark;
-}
-
-/* Minrock: Clean White (editorial) */
-[data-theme="white"] {
-  --bg: #ffffff;
-  --bg-surface: #f8fafc;
-  --bg-subtle: #f1f5f9;
-  --text: #0f172a;
-  --text-muted: #64748b;
-  --border: #e2e8f0;
-  --accent: #2563eb;
-  --accent-hover: #1d4ed8;
-  --on-accent: #ffffff;
-  --selection: #cbd5e1;
-  color-scheme: light;
-}
-
-/* Minrock: Warm Paper (long reading comfort) */
-[data-theme="cream"] {
-  --bg: #f7f4ea;
-  --bg-surface: #fffdf8;
-  --bg-subtle: #eee7d5;
-  --text: #292524;
-  --text-muted: #57534e;
-  --border: #e5dac1;
-  --accent: #92400e;
-  --accent-hover: #78350f;
-  --on-accent: #ffffff;
-  --selection: #fde68a;
-  color-scheme: light;
-}
-
-/* Minrock: Slate Navy (modern dark) */
-[data-theme="slate"] {
-  --bg: #0b1120;
-  --bg-surface: #1e293b;
-  --bg-subtle: #334155;
-  --text: #f8fafc;
-  --text-muted: #94a3b8;
-  --border: #334155;
-  --accent: #38bdf8;
-  --accent-hover: #7dd3fc;
-  --on-accent: #0b1120;
-  --selection: #1e3a8a;
-  color-scheme: dark;
-}
-
-/* Minrock: Midnight OLED (pure dark) */
-[data-theme="midnight"] {
-  --bg: #000000;
-  --bg-surface: #0a0e14;
-  --bg-subtle: #161b22;
-  --text: #f0f6fc;
-  --text-muted: #8b949e;
-  --border: #30363d;
-  --accent: #58a6ff;
-  --accent-hover: #79c0ff;
-  --on-accent: #000000;
-  --selection: #21262d;
-  color-scheme: dark;
-}
-
-/* Minrock palettes have a single accent, so it also plays Scholar's primary. */
-:is([data-theme="white"], [data-theme="cream"], [data-theme="slate"], [data-theme="midnight"]) {
-  --primary: var(--accent);
-  --on-primary: var(--on-accent);
-  --star: var(--accent);
-  --selection-text: var(--text);
 }
 
 /* ── Tokens ─────────────────────────────────────────────────────────────── */
@@ -242,7 +173,7 @@ code {
 }
 
 .container-wide {
-  max-width: 1180px;
+  max-width: 1200px;
 }
 
 @media (max-width: 480px) {
@@ -431,138 +362,4 @@ code {
   font-size: 0.875rem;
   line-height: 1.5;
   white-space: nowrap;
-}
-
-/* ── Header menus (Minrock dropdowns) ───────────────────────────────────── */
-
-.menu {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-}
-
-.menu-trigger {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 3px;
-  width: var(--control);
-  height: var(--control);
-  padding: 0;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background-color: var(--bg-surface);
-  color: var(--text-muted);
-  cursor: pointer;
-  transition:
-    color 0.15s ease,
-    background-color 0.15s ease,
-    border-color 0.15s ease;
-}
-
-.menu-trigger:hover,
-.menu-trigger[aria-expanded="true"] {
-  border-color: var(--accent);
-  background-color: var(--bg-subtle);
-  color: var(--text);
-}
-
-.menu-chevron {
-  margin-left: -1px;
-  opacity: 0.6;
-  transition: transform 0.15s ease;
-}
-
-.menu-trigger[aria-expanded="true"] .menu-chevron {
-  transform: rotate(180deg);
-}
-
-.menu-panel {
-  position: absolute;
-  top: calc(100% + 6px);
-  right: 0;
-  z-index: 1000;
-  min-width: 175px;
-  padding: 0.35rem;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background-color: var(--bg);
-  box-shadow: 0 10px 25px -5px rgb(0 0 0 / 0.2);
-  animation: menu-fade 0.15s ease;
-}
-
-.menu-panel[hidden] {
-  display: none;
-}
-
-@keyframes menu-fade {
-  from {
-    opacity: 0;
-    translate: 0 -4px;
-  }
-}
-
-.menu-heading {
-  padding: 0.25rem 0.65rem 0.35rem;
-  color: var(--text-muted);
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.menu-divider {
-  height: 1px;
-  margin: 0.3rem 0;
-  background-color: var(--border);
-}
-
-.menu-item {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  width: 100%;
-  padding: 0.45rem 0.65rem;
-  border: 0;
-  border-radius: 5px;
-  background: transparent;
-  color: var(--text);
-  font-family: var(--font-sans);
-  font-size: 0.84rem;
-  font-weight: 500;
-  line-height: 1.4;
-  text-align: left;
-  white-space: nowrap;
-  cursor: pointer;
-  transition:
-    background-color 0.12s ease,
-    color 0.12s ease;
-}
-
-.menu-item:hover,
-.menu-item:focus-visible {
-  background-color: var(--bg-subtle);
-  color: var(--accent);
-}
-
-.menu-item:focus-visible {
-  outline-offset: -2px;
-}
-
-.menu-item:is([aria-pressed="true"], [aria-current]) {
-  background-color: var(--bg-subtle);
-  color: var(--accent);
-  font-weight: 600;
-}
-
-.menu-check {
-  flex-shrink: 0;
-  margin-left: auto;
-  color: var(--accent);
-  visibility: hidden;
-}
-
-.menu-item:is([aria-pressed="true"], [aria-current]) .menu-check {
-  visibility: visible;
 }

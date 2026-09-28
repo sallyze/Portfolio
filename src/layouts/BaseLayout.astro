@@ -49,7 +49,9 @@ const structuredData = {
     <link rel="alternate" hreflang="en" href={new URL(homePath.en, site)} />
     <link rel="alternate" hreflang="it" href={new URL(homePath.it, site)} />
     <link rel="alternate" hreflang="x-default" href={new URL(homePath.en, site)} />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <meta property="og:type" content="profile" />
     <meta property="og:url" content={canonical} />
@@ -59,17 +61,16 @@ const structuredData = {
     <meta property="og:locale" content={lang === 'it' ? 'it_IT' : 'en_US'} />
     <meta name="twitter:card" content="summary" />
 
-    <!-- Runs before first paint so the stored palette never flashes. "auto"
-         leaves data-theme unset and the Scholar pair follows the OS. -->
+    <!-- Runs before first paint so a stored choice never flashes. "system"
+         leaves data-theme unset and light-dark() follows the OS. -->
     <script is:inline>
       (() => {
-        const palettes = ['white', 'cream', 'lavender', 'slate', 'midnight', 'night'];
-        let pref = 'auto';
+        let pref = 'system';
         try {
           const stored = localStorage.getItem('theme');
-          if (palettes.includes(stored)) pref = stored;
+          if (stored === 'dark' || stored === 'light') pref = stored;
         } catch {}
-        if (pref !== 'auto') document.documentElement.dataset.theme = pref;
+        if (pref !== 'system') document.documentElement.dataset.theme = pref;
         document.documentElement.dataset.themePref = pref;
       })();
     </script>

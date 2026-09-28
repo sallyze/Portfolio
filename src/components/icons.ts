@@ -1,5 +1,5 @@
 // 24×24 icons. Stroke icons follow Lucide (ISC); GitHub and LinkedIn marks
-// are the filled glyphs Minrock ships in its social menu.
+// are the filled glyphs from Minrock's social links.
 const stroke = (body: string) => ({ body, filled: false });
 const fill = (body: string) => ({ body, filled: true });
 
@@ -26,9 +26,10 @@ export const icons = {
   database: stroke('<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/>'),
   languages: stroke('<path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/>'),
   'arrow-up-right': stroke('<path d="M7 7h10v10"/><path d="M7 17 17 7"/>'),
-  'chevron-down': stroke('<polyline points="6 9 12 15 18 9"/>'),
   'chevron-up': stroke('<polyline points="18 15 12 9 6 15"/>'),
-  'at-sign': stroke('<circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8"/>'),
+  sun: stroke('<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>'),
+  moon: stroke('<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>'),
+  monitor: stroke('<rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/>'),
 } as const;
 
 export type IconName = keyof typeof icons;

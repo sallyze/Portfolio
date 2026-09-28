@@ -29,13 +29,13 @@ The Italian copy uses gender-neutral phrasing ("Studio Ingegneria Informatica");
 
 ## Themes
 
-The theme menu offers both source themes' palettes:
+The theme button in the top bar cycles **System → Dark → Light**:
 
-- **Light:** Clean White, Warm Paper (Minrock), Scholar Light
-- **Dark:** Slate Navy, Midnight OLED (Minrock), Scholar Night
-- **System Auto** (default): Scholar Light or Night, following the OS
+- **Light:** Warm Paper (from Minrock)
+- **Dark:** Scholar Night (from Astro Scholar)
+- **System** (default) follows the OS setting
 
-The choice is stored in `localStorage` under `theme`.
+The choice is stored in `localStorage` under `theme`. Both palettes live at the top of `src/styles/global.css`; the logo's star colour is `--logo-star`.
 
 ## Credits
 
