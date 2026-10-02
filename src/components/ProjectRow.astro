@@ -1,6 +1,6 @@
 ---
-// Scholar's project row. A featured project gets a star in the gutter rather
-// than a badge, echoing the one on section headings.
+// Scholar's project row, marked with a star in the gutter that echoes the
+// one on section headings.
 import Icon from './Icon.astro';
 import InlineText from './InlineText.astro';
 import { useTranslations, type Lang, type Localized } from '../i18n/ui';
@@ -11,27 +11,23 @@ interface Props {
   kind: Localized;
   year: string;
   repo: string;
-  featured: boolean;
   points: Localized[];
   stack: (string | Localized)[];
 }
 
-const { lang, title, kind, year, repo, featured, points, stack } = Astro.props;
+const { lang, title, kind, year, repo, points, stack } = Astro.props;
 const t = useTranslations(lang);
 const repoPath = new URL(repo).pathname.slice(1);
 ---
 
-<article class:list={['project', { 'is-featured': featured }]}>
+<article class="project">
   <p class="project-meta">
     <span>{year}</span>
     <span aria-hidden="true">·</span>
     <span>{kind[lang]}</span>
   </p>
   <div class="project-head">
-    <h3 class="project-title">
-      {featured && <span class="sr-only">{t('featured')} </span>}
-      {title}
-    </h3>
+    <h3 class="project-title">{title}</h3>
     <a class="project-repo" href={repo} target="_blank" rel="noopener noreferrer">
       <Icon name="github" size={14} />
       <span class="u-link">{repoPath}</span>
@@ -82,7 +78,7 @@ const repoPath = new URL(repo).pathname.slice(1);
     line-height: 1.45;
   }
 
-  .project.is-featured .project-title::before {
+  .project-title::before {
     content: '';
     position: absolute;
     top: 0.5em;
@@ -104,7 +100,7 @@ const repoPath = new URL(repo).pathname.slice(1);
 
   /* Phones have no gutter to spare: the star moves inline, before the title. */
   @media (max-width: 480px) {
-    .project.is-featured .project-title::before {
+    .project-title::before {
       position: static;
       display: inline-block;
       margin-right: 0.4rem;

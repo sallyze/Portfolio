@@ -98,7 +98,6 @@ export const projects = [
     kind: { en: 'Personal project', it: 'Progetto personale' } satisfies Localized,
     year: '2026',
     repo: 'https://github.com/sallyze/spacex-pipeline',
-    featured: true,
     points: [
       {
         en: 'Engineered a Dockerized 4-stage ETL pipeline loading 205 SpaceX launches into two PostgreSQL 15 tables.',
@@ -120,7 +119,6 @@ export const projects = [
     kind: { en: 'University project', it: 'Progetto universitario' } satisfies Localized,
     year: '2025',
     repo: 'https://github.com/sallyze/cryptography-Triple-DES',
-    featured: false,
     points: [
       {
         en: 'Implemented 3DES encryption and decryption from scratch, with no external libraries.',
