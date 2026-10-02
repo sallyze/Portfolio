@@ -560,28 +560,29 @@ const github = contacts.find((contact) => contact.id === 'github')!;
 </style>
 
 <script>
-  const status = document.querySelector<HTMLElement>('[data-copy-status]');
+  // Clicks are handled at the document level so they survive page swaps.
+  let timer = 0;
 
-  for (const button of document.querySelectorAll<HTMLButtonElement>('[data-copy]')) {
-    // The async clipboard API needs a secure context; without it, hide the button.
-    if (!navigator.clipboard) {
-      button.hidden = true;
-      continue;
+  document.addEventListener('astro:page-load', () => {
+    // The async clipboard API needs a secure context; without it, hide the buttons.
+    if (!navigator.clipboard) document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((b) => (b.hidden = true));
+  });
+
+  document.addEventListener('click', async (event) => {
+    const button = (event.target as Element).closest<HTMLButtonElement>('[data-copy]');
+    if (!button) return;
+    try {
+      await navigator.clipboard.writeText(button.dataset.copy!);
+    } catch {
+      return;
     }
-    let timer = 0;
-    button.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(button.dataset.copy!);
-      } catch {
-        return;
-      }
-      button.classList.add('is-copied');
-      if (status) status.textContent = status.dataset.copied ?? '';
-      clearTimeout(timer);
-      timer = window.setTimeout(() => {
-        button.classList.remove('is-copied');
-        if (status) status.textContent = '';
-      }, 1600);
-    });
-  }
+    const status = document.querySelector<HTMLElement>('[data-copy-status]');
+    button.classList.add('is-copied');
+    if (status) status.textContent = status.dataset.copied ?? '';
+    clearTimeout(timer);
+    timer = window.setTimeout(() => {
+      button.classList.remove('is-copied');
+      if (status) status.textContent = '';
+    }, 1600);
+  });
 </script>

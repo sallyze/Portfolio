@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { getImage } from 'astro:assets';
+import { ClientRouter } from 'astro:transitions';
 import BackToTop from '../components/BackToTop.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
@@ -62,18 +63,28 @@ const structuredData = {
     <meta name="twitter:card" content="summary" />
 
     <!-- Runs before first paint so a stored choice never flashes. "system"
-         leaves data-theme unset and light-dark() follows the OS. -->
+         leaves data-theme unset and light-dark() follows the OS. The client
+         router replaces <html>'s attributes on every page swap, so the same
+         choice is stamped onto each incoming page before it is swapped in. -->
     <script is:inline>
       (() => {
-        let pref = 'system';
-        try {
-          const stored = localStorage.getItem('theme');
-          if (stored === 'dark' || stored === 'light') pref = stored;
-        } catch {}
-        if (pref !== 'system') document.documentElement.dataset.theme = pref;
-        document.documentElement.dataset.themePref = pref;
+        const apply = (root) => {
+          let pref = 'system';
+          try {
+            const stored = localStorage.getItem('theme');
+            if (stored === 'dark' || stored === 'light') pref = stored;
+          } catch {}
+          if (pref === 'system') delete root.dataset.theme;
+          else root.dataset.theme = pref;
+          root.dataset.themePref = pref;
+        };
+        apply(document.documentElement);
+        document.addEventListener('astro:before-swap', (event) => apply(event.newDocument.documentElement));
       })();
     </script>
+
+    <!-- Switching language swaps the page in place instead of reloading it. -->
+    <ClientRouter />
 
     <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
   </head>

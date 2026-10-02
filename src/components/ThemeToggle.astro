@@ -81,20 +81,26 @@ const initial = `${t('theme.label')}: ${names.system}`;
   type Mode = (typeof order)[number];
 
   const root = document.documentElement;
-  const button = document.querySelector<HTMLButtonElement>('[data-theme-toggle]')!;
-  const names = JSON.parse(button.dataset.names!) as Record<Mode, string>;
+  const current = (): Mode => order.find((m) => m === root.dataset.themePref) ?? 'system';
 
-  const label = (mode: Mode) => {
+  const label = (button: HTMLButtonElement, mode: Mode) => {
+    const names = JSON.parse(button.dataset.names!) as Record<Mode, string>;
     const text = `${button.dataset.label}: ${names[mode]}`;
     button.setAttribute('aria-label', text);
     button.title = text;
   };
 
-  let mode: Mode = order.find((m) => m === root.dataset.themePref) ?? 'system';
-  label(mode);
+  // The button is swapped with the page: relabel it on every page load and
+  // handle clicks at the document level.
+  document.addEventListener('astro:page-load', () => {
+    const button = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+    if (button) label(button, current());
+  });
 
-  button.addEventListener('click', () => {
-    mode = order[(order.indexOf(mode) + 1) % order.length];
+  document.addEventListener('click', (event) => {
+    const button = (event.target as Element).closest<HTMLButtonElement>('[data-theme-toggle]');
+    if (!button) return;
+    const mode = order[(order.indexOf(current()) + 1) % order.length];
     // System drops the attribute so light-dark() follows the OS live.
     if (mode === 'system') delete root.dataset.theme;
     else root.dataset.theme = mode;
@@ -104,7 +110,7 @@ const initial = `${t('theme.label')}: ${names.system}`;
     } catch {
       /* storage blocked: the choice lasts for this page view */
     }
-    label(mode);
+    label(button, mode);
     button.classList.remove('is-switching');
     void button.offsetWidth; // restart the icon animation
     button.classList.add('is-switching');

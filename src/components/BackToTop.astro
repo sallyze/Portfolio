@@ -63,11 +63,12 @@ const t = useTranslations(Astro.props.lang);
 </style>
 
 <script>
-  const button = document.getElementById('back-to-top')!;
+  // The button is swapped with the page, so look it up when needed and
+  // handle clicks at the document level.
   let ticking = false;
 
   const sync = () => {
-    button.classList.toggle('visible', scrollY > 300);
+    document.getElementById('back-to-top')?.classList.toggle('visible', scrollY > 300);
     ticking = false;
   };
 
@@ -81,9 +82,10 @@ const t = useTranslations(Astro.props.lang);
     },
     { passive: true },
   );
-  sync();
+  document.addEventListener('astro:page-load', sync);
 
-  button.addEventListener('click', () => {
+  document.addEventListener('click', (event) => {
+    if (!(event.target as Element).closest('#back-to-top')) return;
     scrollTo({ top: 0 });
     document.querySelector<HTMLElement>('.brand')?.focus({ preventScroll: true });
   });

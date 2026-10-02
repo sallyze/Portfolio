@@ -1,7 +1,7 @@
 ---
 // Two-flag language switch. The whole control is one link to the other
-// language: the thumb slides onto its flag, then the page changes, landing on
-// the section being read.
+// language: the thumb slides onto its flag, then the client router swaps the
+// page in place (no reload), keeping the reader where they were.
 import { homePath, languages, type Lang } from '../i18n/ui';
 
 interface Props {
@@ -21,6 +21,7 @@ const other: Lang = lang === 'en' ? 'it' : 'en';
   title={languages[other]}
   data-active={lang}
   data-lang-switch
+  data-astro-prefetch
 >
   <span class="lang-thumb" aria-hidden="true"></span>
   <span class="lang-flag" data-code="en" aria-hidden="true">
@@ -111,16 +112,28 @@ const other: Lang = lang === 'en' ? 'it' : 'en';
 </style>
 
 <script>
-  const link = document.querySelector<HTMLAnchorElement>('[data-lang-switch]')!;
+  // The client router handles the click itself (plain clicks only; modifier
+  // clicks still open a new tab). This hooks its events to keep the reader's
+  // place: the section in view and how far from the top of the window it sat.
+  let anchor: { id: string; top: number } | null = null;
 
-  link.addEventListener('click', (event) => {
-    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-    event.preventDefault();
-    // Land on the section being read (the nav's scroll-spy marks it).
-    const section = document.querySelector<HTMLAnchorElement>('.nav-link.is-active')?.hash ?? '';
-    const target = link.getAttribute('href')! + section;
+  document.addEventListener('astro:before-preparation', (event) => {
+    const link = (event.sourceElement as Element | undefined)?.closest<HTMLAnchorElement>('[data-lang-switch]');
+    if (!link) return;
+    const section = document.querySelector<HTMLAnchorElement>('.nav-link.is-active')?.hash.slice(1);
+    const el = section ? document.getElementById(section) : null;
+    anchor = el ? { id: el.id, top: el.getBoundingClientRect().top } : null;
     link.dataset.active = link.hreflang; // slide the thumb to the new language
-    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    setTimeout(() => window.location.assign(target), still ? 0 : 180);
+    // Load the page while the thumb slides; swap once both are done.
+    const load = event.loader;
+    const slide = matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 180;
+    event.loader = () => Promise.all([load(), new Promise((r) => setTimeout(r, slide))]).then(() => {});
+  });
+
+  // Runs right after the swap, before the new page is shown.
+  document.addEventListener('astro:after-swap', () => {
+    const el = anchor && document.getElementById(anchor.id);
+    if (el) scrollTo({ top: scrollY + el.getBoundingClientRect().top - anchor!.top, behavior: 'instant' });
+    anchor = null;
   });
 </script>
