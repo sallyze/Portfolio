@@ -1,0 +1,89 @@
+---
+// Served for any unknown URL. Cloudflare needs a top-level 404.html: without
+// one, Pages answers every missing path with the home page and a 200 status.
+// The visitor's language is unknown, so the page speaks both.
+import '../styles/global.css';
+import Logo from '../components/Logo.astro';
+import { person } from '../data/cv';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Page not found · {person.name}</title>
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script is:inline>
+      (() => {
+        try {
+          const stored = localStorage.getItem('theme');
+          if (stored === 'dark' || stored === 'light') document.documentElement.dataset.theme = stored;
+        } catch {}
+      })();
+    </script>
+  </head>
+  <body>
+    <main class="not-found">
+      <a href="/" class="not-found-logo" aria-label={person.name}><Logo /></a>
+      <h1>Page not found</h1>
+      <p lang="it">Pagina non trovata</p>
+      <div class="not-found-links">
+        <a class="btn btn-primary" href="/">Open the CV</a>
+        <a class="btn not-found-it" href="/it/" lang="it">Apri il CV in italiano</a>
+      </div>
+    </main>
+  </body>
+</html>
+
+<style>
+  .not-found {
+    display: grid;
+    flex: 1;
+    place-content: center;
+    justify-items: center;
+    gap: 0.75rem;
+    padding: 3rem 1.5rem;
+    text-align: center;
+  }
+
+  .not-found-logo {
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+
+  .not-found-logo :global(.logo) {
+    width: auto;
+    height: 3.5rem;
+  }
+
+  h1 {
+    font-size: 1.65rem;
+  }
+
+  p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+  }
+
+  .not-found-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+  }
+
+  .not-found-it {
+    border-color: var(--border);
+    background: var(--bg-surface);
+    color: var(--text);
+  }
+
+  .not-found-it:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+</style>

@@ -1,0 +1,18 @@
+// Cloudflare Workers static assets (free tier). There is no Worker script,
+// so every request is a static-asset request: free and not metered.
+// Build first (`npm run build`), then deploy with `npx wrangler@4.146.0 deploy`.
+// Pages ignores this file; there, set build command `npm run build` and
+// output directory `dist`.
+//
+// Do not add `routes` / `custom_domain` here until sallyze.dev has been moved
+// over by hand (see README): builds in Cloudflare's CI run without a terminal,
+// and wrangler then overwrites conflicting DNS records without asking.
+{
+  "name": "sallyze-cv",
+  "compatibility_date": "2026-09-28",
+  "assets": {
+    "directory": "./dist",
+    // unknown URLs get dist/404.html with a 404 status
+    "not_found_handling": "404-page",
+  },
+}
