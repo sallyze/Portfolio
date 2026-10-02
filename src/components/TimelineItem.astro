@@ -7,9 +7,11 @@ interface Props {
   lang: Lang;
   start: string;
   end: string | null;
+  /** The end date is a forecast, e.g. an expected graduation. */
+  expected?: boolean;
 }
 
-const { lang, start, end } = Astro.props;
+const { lang, start, end, expected = false } = Astro.props;
 const t = useTranslations(lang);
 ---
 
@@ -23,6 +25,7 @@ const t = useTranslations(lang);
       <time datetime={start}>{formatMonth(start, lang)}</time>
       <span aria-hidden="true">–</span>
       {end ? <time datetime={end}>{formatMonth(end, lang)}</time> : <span>{t('present')}</span>}
+      {end && expected && <span>({t('expected')})</span>}
     </p>
     <slot />
   </div>

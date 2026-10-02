@@ -1,19 +1,21 @@
 // All CV content lives here, in English and Italian.
-// Source of truth: cv/Sally_Mohammadzadeh_CV.pdf. Wrap `inline code` in backticks.
+// Source of truth: cv/scannable/cv.typ (the PDF offered for download is
+// cv/scannable/Sally_Mohammadzadeh_CV.pdf). Wrap `inline code` in backticks.
 import type { Localized, UiKey } from '../i18n/ui';
 import type { IconName } from '../components/icons';
 
 export const person = {
   name: 'Sally Mohammadzadeh',
   cvFile: '/Sally_Mohammadzadeh_CV.pdf',
+  // Two lines on the page, split at " | ".
   tagline: {
-    en: 'Computer Engineering Student | AI & Data Engineering',
-    it: 'Studio Ingegneria Informatica | AI & Data Engineering',
+    en: 'Applied AI Engineer | Computer Engineering Student',
+    it: 'Applied AI Engineer | Studio Ingegneria Informatica',
   },
   location: { en: 'Turin, Italy', it: 'Torino, Italia' },
   summary: {
-    en: 'Computer Engineering student at Politecnico di Torino targeting AI and data engineering internships. Computer Vision Engineer on DIANA’s 4th-place team among 126 teams at ERC 2025. Built end-to-end machine learning and data systems with Python, YOLOv8, Docker, PostgreSQL, and Streamlit.',
-    it: 'Frequento Ingegneria Informatica al Politecnico di Torino e cerco tirocini in AI e data engineering. Sono Computer Vision Engineer nel team DIANA, arrivato 4º su 126 squadre all’ERC 2025. Ho realizzato sistemi end-to-end di machine learning e di gestione dei dati con Python, YOLOv8, Docker, PostgreSQL e Streamlit.',
+    en: 'Applied AI engineer and co-lead of a 6-person computer vision subteam at DIANA, the Politecnico di Torino rover team (4th of 126, European Rover Challenge (ERC) 2025). Builds end-to-end pipelines in Python, from field-collected data to trained YOLOv8 models and Dockerized ETL on PostgreSQL. Computer Engineering student, graduating in September 2027.',
+    it: 'Applied AI engineer e co-responsabile del sottoteam di computer vision (6 persone) di DIANA, il team rover del Politecnico di Torino (4º su 126 alla European Rover Challenge (ERC) 2025). Realizzo pipeline end-to-end in Python, dai dati raccolti sul campo ai modelli YOLOv8 addestrati, fino a pipeline ETL containerizzate con Docker su PostgreSQL. Studio Ingegneria Informatica, con laurea prevista a settembre 2027.',
   } satisfies Localized,
 };
 
@@ -53,34 +55,38 @@ export const contacts: Contact[] = [
     id: 'linkedin',
     label: 'contact.linkedin',
     icon: 'linkedin',
-    href: 'https://www.linkedin.com/in/salmaze',
-    display: 'linkedin.com/in/salmaze',
+    href: 'https://www.linkedin.com/in/sallyze',
+    display: 'linkedin.com/in/sallyze',
   },
 ];
 
 export const experience = [
   {
-    role: 'Computer Vision Engineer',
+    role: 'Applied AI Engineer, Computer Vision Co-Lead',
     org: { en: 'DIANA Student Robotics Team', it: 'DIANA, team studentesco di robotica' } satisfies Localized,
     place: 'Politecnico di Torino',
     start: '2023-10',
     end: null,
     points: [
       {
-        en: 'Contributed computer vision work to DIANA’s 4th-place finish among 126 teams at the European Rover Challenge (ERC) 2025.',
-        it: 'Ho contribuito con la computer vision al 4º posto di DIANA su 126 squadre alla European Rover Challenge (ERC) 2025.',
+        en: '4th of 126 teams at ERC 2025: built the rover’s YOLOv8 probe-detection pipeline.',
+        it: '4º su 126 squadre all’ERC 2025: ho realizzato la pipeline YOLOv8 per il rilevamento delle sonde del rover.',
       },
       {
-        en: 'Built a YOLOv8 object-detection pipeline for probe detection, covering field data collection, CVAT annotation and quality control, augmentation, model training in Python, and OpenCV-based development.',
-        it: 'Ho realizzato una pipeline di object detection con YOLOv8 per il rilevamento delle sonde: raccolta dei dati sul campo, annotazione e controllo qualità con CVAT, data augmentation, addestramento del modello in Python e sviluppo con OpenCV.',
+        en: 'Selected YOLOv8, CVAT and OpenCV through AI-assisted research comparing detection and annotation tools.',
+        it: 'Ho scelto YOLOv8, CVAT e OpenCV con una ricerca assistita dall’AI che ha messo a confronto strumenti di rilevamento e di annotazione.',
       },
       {
-        en: 'Coordinated the computer vision workstream with mechanical and software subteams under competition deadlines.',
-        it: 'Ho coordinato il lavoro di computer vision con i sottoteam di meccanica e software, rispettando le scadenze della competizione.',
+        en: 'Ran every stage: field data collection, CVAT annotation and quality control, augmentation, training.',
+        it: 'Ho seguito ogni fase: raccolta dei dati sul campo, annotazione e controllo qualità con CVAT, data augmentation, addestramento.',
       },
       {
-        en: 'Learned MATLAB and Simulink independently to support inverse-kinematics simulation for the rover arm.',
-        it: 'Ho imparato MATLAB e Simulink in autonomia per supportare la simulazione della cinematica inversa del braccio del rover.',
+        en: 'Co-led the 6-person computer vision subteam, coordinating with mechanical and software subteams.',
+        it: 'Ho co-guidato il sottoteam di computer vision (6 persone), coordinandomi con i sottoteam di meccanica e software.',
+      },
+      {
+        en: 'Developed and coded the rover arm’s inverse-kinematics simulation in MATLAB/Simulink, both self-taught.',
+        it: 'Ho sviluppato e programmato la simulazione della cinematica inversa del braccio del rover in MATLAB/Simulink, entrambi imparati in autonomia.',
       },
     ] satisfies Localized[],
   },
@@ -95,30 +101,38 @@ export const projects = [
     featured: true,
     points: [
       {
-        en: 'Built a Dockerized 4-stage ETL pipeline that ingests 205 SpaceX launches from a REST API, transforms and aggregates data with Pandas, and persists results in two PostgreSQL 15 relational tables.',
-        it: 'Ho realizzato una pipeline ETL in 4 fasi, containerizzata con Docker, che acquisisce 205 lanci SpaceX da una REST API, trasforma e aggrega i dati con Pandas e salva i risultati in due tabelle relazionali PostgreSQL 15.',
+        en: 'Engineered a Dockerized 4-stage ETL pipeline loading 205 SpaceX launches into two PostgreSQL 15 tables.',
+        it: 'Ho progettato una pipeline ETL in 4 fasi, containerizzata con Docker, che carica 205 lanci SpaceX in due tabelle PostgreSQL 15.',
       },
       {
-        en: 'Built a Streamlit dashboard that queries PostgreSQL directly for KPI metrics and yearly launch-success charts; the full stack starts with one `docker compose up` command.',
-        it: 'Ho sviluppato una dashboard Streamlit che interroga direttamente PostgreSQL per KPI e grafici annuali sul successo dei lanci; l’intero stack si avvia con un solo comando `docker compose up`.',
+        en: 'Created a Streamlit dashboard with KPI metrics and yearly launch-success charts, queried from PostgreSQL.',
+        it: 'Ho creato una dashboard Streamlit con KPI e grafici annuali sul successo dei lanci, con i dati letti da PostgreSQL.',
+      },
+      {
+        en: 'Packaged the full stack to start with one command: `docker compose up`.',
+        it: 'Ho reso l’intero stack avviabile con un solo comando: `docker compose up`.',
       },
     ] satisfies Localized[],
     stack: ['Python', 'Pandas', 'PostgreSQL', 'Docker', 'Streamlit', 'REST API'],
   },
   {
-    title: 'Triple Data Encryption Standard (3DES) Encryption',
+    title: 'Triple DES (3DES) Encryption in Pure Python',
     kind: { en: 'University project', it: 'Progetto universitario' } satisfies Localized,
     year: '2025',
     repo: 'https://github.com/sallyze/cryptography-Triple-DES',
     featured: false,
     points: [
       {
-        en: 'Implemented 3DES encryption and decryption from scratch in pure Python without external libraries, including S-boxes, Feistel structure, initial/final permutations, and 48-round key scheduling across three keys.',
-        it: 'Ho implementato da zero cifratura e decifratura 3DES in Python puro, senza librerie esterne: S-box, struttura di Feistel, permutazioni iniziale e finale e key scheduling a 48 round su tre chiavi.',
+        en: 'Implemented 3DES encryption and decryption from scratch, with no external libraries.',
+        it: 'Ho implementato da zero cifratura e decifratura 3DES, senza librerie esterne.',
       },
       {
-        en: 'Added ECB mode, optional PKCS-style padding, and a written technical report.',
-        it: 'Ho aggiunto la modalità ECB, un padding opzionale in stile PKCS e una relazione tecnica scritta.',
+        en: 'Coded each DES component by hand: S-boxes, Feistel network, permutations, 48-round key scheduling.',
+        it: 'Ho scritto a mano ogni componente del DES: S-box, rete di Feistel, permutazioni, key scheduling a 48 round.',
+      },
+      {
+        en: 'Added ECB mode and optional PKCS-style padding, and documented the design in a technical report.',
+        it: 'Ho aggiunto la modalità ECB e un padding opzionale in stile PKCS, e ho documentato il progetto in una relazione tecnica.',
       },
     ] satisfies Localized[],
     stack: ['Python', { en: 'Cryptography', it: 'Crittografia' } satisfies Localized],
@@ -128,17 +142,18 @@ export const projects = [
 export const education = [
   {
     degree: {
-      en: 'Bachelor’s Degree in Computer Engineering',
+      en: 'BSc in Computer Engineering',
       it: 'Laurea triennale in Ingegneria Informatica',
     } satisfies Localized,
     school: 'Politecnico di Torino',
     url: 'https://www.polito.it',
     location: { en: 'Turin, Italy', it: 'Torino, Italia' } satisfies Localized,
     start: '2022-09',
-    end: null,
+    end: '2027-09',
+    expected: true,
     coursework: {
-      en: 'Databases, Cybersecurity, Algorithms & Data Structures, OOP, Computer Architecture',
-      it: 'Basi di dati, Cybersecurity, Algoritmi e strutture dati, Programmazione a oggetti, Architetture dei calcolatori',
+      en: 'Databases, Algorithms & Data Structures, Object-Oriented Programming, Computer Architecture, Cybersecurity',
+      it: 'Basi di dati, Algoritmi e strutture dati, Programmazione a oggetti, Architetture dei calcolatori, Cybersecurity',
     } satisfies Localized,
   },
 ];
@@ -153,23 +168,23 @@ export const skillGroups: { name: Localized; icon: IconName; items: (string | Lo
   {
     name: { en: 'Programming', it: 'Programmazione' },
     icon: 'code',
-    items: ['Python', 'C', 'SQL', 'MATLAB'],
+    items: ['Python', 'C', 'SQL', 'MATLAB/Simulink'],
   },
   {
     name: { en: 'ML & Computer Vision', it: 'ML e Computer Vision' },
     icon: 'scan-eye',
-    items: ['PyTorch', 'NumPy', 'Pandas', 'YOLOv8', 'OpenCV', 'CVAT'],
+    items: ['PyTorch', 'YOLOv8', 'OpenCV', 'NumPy', 'Pandas', 'CVAT'],
   },
   {
     name: { en: 'Data & Tools', it: 'Dati e strumenti' },
     icon: 'database',
-    items: ['PostgreSQL', 'Docker', 'Streamlit', { en: 'REST APIs', it: 'REST API' }, 'Git', 'GitHub', 'Simulink'],
+    items: ['PostgreSQL', 'Docker', 'Streamlit', { en: 'REST APIs', it: 'REST API' }, 'Git/GitHub'],
   },
 ];
 
 export const spokenLanguages: { name: Localized; level: Localized }[] = [
+  { name: { en: 'Italian', it: 'Italiano' }, level: { en: 'A2 – studying', it: 'A2 – in apprendimento' } },
+  { name: { en: 'English', it: 'Inglese' }, level: { en: 'C1 – IELTS 7.0', it: 'C1 – IELTS 7.0' } },
   { name: { en: 'Persian', it: 'Persiano' }, level: { en: 'Native', it: 'Madrelingua' } },
-  { name: { en: 'English', it: 'Inglese' }, level: { en: 'C1 – IELTS 7', it: 'C1 – IELTS 7' } },
   { name: { en: 'Azerbaijani', it: 'Azero' }, level: { en: 'C1', it: 'C1' } },
-  { name: { en: 'Italian', it: 'Italiano' }, level: { en: 'A2 – learning', it: 'A2 – in apprendimento' } },
 ];

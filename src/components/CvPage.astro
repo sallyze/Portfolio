@@ -66,7 +66,7 @@ const github = contacts.find((contact) => contact.id === 'github')!;
     <ul class="timeline">
       {
         education.map((entry) => (
-          <TimelineItem lang={lang} start={entry.start} end={entry.end}>
+          <TimelineItem lang={lang} start={entry.start} end={entry.end} expected={entry.expected}>
             <h3 class="entry-title">
               {entry.degree[lang]} <span class="entry-at">@</span>{'\u00a0'}
               <a class="u-link" href={entry.url} target="_blank" rel="noopener noreferrer">

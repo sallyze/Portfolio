@@ -10,9 +10,9 @@ export const homePath: Record<Lang, string> = { en: '/', it: '/it/' };
 const dateLocale: Record<Lang, string> = { en: 'en-US', it: 'it-IT' };
 
 const en = {
-  'meta.title': 'Sally Mohammadzadeh — Computer Engineering Student, AI & Data Engineering',
+  'meta.title': 'Sally Mohammadzadeh — Applied AI Engineer, Computer Engineering Student',
   'meta.description':
-    'Computer Engineering student at Politecnico di Torino focused on AI and data engineering: computer vision for the DIANA rover team (4th of 126 at ERC 2025) and data pipelines with Python, Docker and PostgreSQL.',
+    'Applied AI engineer and Computer Engineering student at Politecnico di Torino: co-leads computer vision for the DIANA rover team (4th of 126 at ERC 2025) and builds data pipelines with Python, Docker and PostgreSQL.',
   'skip': 'Skip to content',
   'home': 'Back to the top of the page',
   'nav.label': 'Sections',
@@ -30,6 +30,7 @@ const en = {
   'theme.dark': 'Dark',
   'theme.light': 'Light',
   'present': 'Present',
+  'expected': 'expected',
   'code': 'Code',
   'projects.more': 'More on GitHub',
   'featured': 'Featured project:',
@@ -53,9 +54,9 @@ const en = {
 export type UiKey = keyof typeof en;
 
 const it: Record<UiKey, string> = {
-  'meta.title': 'Sally Mohammadzadeh — Ingegneria Informatica, AI e Data Engineering',
+  'meta.title': 'Sally Mohammadzadeh — Applied AI Engineer, Ingegneria Informatica',
   'meta.description':
-    'Studio Ingegneria Informatica al Politecnico di Torino, con focus su AI e data engineering: computer vision per il rover del team DIANA (4º su 126 all’ERC 2025) e pipeline di dati con Python, Docker e PostgreSQL.',
+    'Applied AI engineer, studio Ingegneria Informatica al Politecnico di Torino: co-guido la computer vision del team rover DIANA (4º su 126 all’ERC 2025) e costruisco pipeline di dati con Python, Docker e PostgreSQL.',
   'skip': 'Vai al contenuto',
   'home': 'Torna all’inizio della pagina',
   'nav.label': 'Sezioni',
@@ -73,6 +74,7 @@ const it: Record<UiKey, string> = {
   'theme.dark': 'Scuro',
   'theme.light': 'Chiaro',
   'present': 'oggi',
+  'expected': 'prevista',
   'code': 'Codice',
   'projects.more': 'Altro su GitHub',
   'featured': 'Progetto in evidenza:',

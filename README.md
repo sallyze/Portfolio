@@ -19,10 +19,10 @@ npm run check    # type-check
 
 | What | Where |
 | --- | --- |
-| CV text, both languages | `src/data/cv.ts` |
+| CV text, both languages | `src/data/cv.ts` (mirrors `cv/scannable/cv.typ`) |
 | Interface labels (nav, buttons, menus) | `src/i18n/ui.ts` |
 | Profile photo | `src/assets/sally.jpeg` |
-| Downloadable CV | `public/Sally_Mohammadzadeh_CV.pdf` (keep the name, or change `person.cvFile`) |
+| Downloadable CV | `public/Sally_Mohammadzadeh_CV.pdf`, a copy of `cv/scannable/Sally_Mohammadzadeh_CV.pdf` (keep the name, or change `person.cvFile`) |
 | Palettes, type, shared styles | `src/styles/global.css` |
 
 The Italian copy uses gender-neutral phrasing ("Studio Ingegneria Informatica"); change it in `src/data/cv.ts` if you prefer "Studentessa".
