@@ -3,7 +3,7 @@
 Bilingual (English / Italian) CV site for Sally Mohammadzadeh, built with [Astro](https://astro.build) as a fully static site.
 
 - English: `/` · Italian: `/it/`
-- Downloadable CV: `/Sally_Mohammadzadeh_CV.pdf`
+- Downloadable CV: `/Sally_Mohammadzadeh_CV.pdf` (English page), `/Sally_Mohammadzadeh_CV_IT.pdf` (Italian page)
 
 ## Run locally
 
@@ -51,13 +51,13 @@ Either way:
 
 | What | Where |
 | --- | --- |
-| CV text, both languages | `src/data/cv.ts` (mirrors `cv/scannable/cv.typ`) |
+| CV text, both languages | `src/data/cv.ts` (mirrors the two PDFs below) |
 | Interface labels (nav, buttons, menus) | `src/i18n/ui.ts` |
 | Profile photo | `src/assets/sally.jpeg` |
-| Downloadable CV | `public/Sally_Mohammadzadeh_CV.pdf`, a copy of `cv/scannable/Sally_Mohammadzadeh_CV.pdf` (keep the name, or change `person.cvFile`) |
+| Downloadable CV | `public/Sally_Mohammadzadeh_CV.pdf` (English) and `public/Sally_Mohammadzadeh_CV_IT.pdf` (Italian); each page offers its own language (keep the names, or change `person.cvFile`) |
 | Palettes, type, shared styles | `src/styles/global.css` |
 
-The Italian copy uses gender-neutral phrasing ("Studio Ingegneria Informatica"); change it in `src/data/cv.ts` if you prefer "Studentessa".
+The Italian copy follows the Italian CV, which uses feminine forms ("Studentessa", "Sviluppatrice").
 
 ## Themes
 

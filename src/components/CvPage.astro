@@ -36,7 +36,7 @@ const github = contacts.find((contact) => contact.id === 'github')!;
         experience.map((job) => (
           <TimelineItem lang={lang} start={job.start} end={job.end}>
             <h3 class="entry-title">
-              {job.role} <span class="entry-at">@</span>{'\u00a0'}{job.org[lang]}
+              {job.role[lang]} <span class="entry-at">@</span>{'\u00a0'}{job.org[lang]}
             </h3>
             <p class="entry-place">{job.place}</p>
             <ul class="points">
@@ -69,15 +69,22 @@ const github = contacts.find((contact) => contact.id === 'github')!;
           <TimelineItem lang={lang} start={entry.start} end={entry.end} expected={entry.expected}>
             <h3 class="entry-title">
               {entry.degree[lang]} <span class="entry-at">@</span>{'\u00a0'}
-              <a class="u-link" href={entry.url} target="_blank" rel="noopener noreferrer">
-                {entry.school}
-                <span class="sr-only">{t('newTab')}</span>
-              </a>
+              {entry.url ? (
+                <a class="u-link" href={entry.url} target="_blank" rel="noopener noreferrer">
+                  {entry.school}
+                  <span class="sr-only">{t('newTab')}</span>
+                </a>
+              ) : (
+                entry.school
+              )}
             </h3>
-            <p class="entry-place">{entry.location[lang]}</p>
-            <p class="entry-note">
-              <span class="entry-note-label">{t('coursework')}</span> {entry.coursework[lang]}
-            </p>
+            <p class="entry-place">{entry.place[lang]}</p>
+            {entry.coursework && (
+              <p class="entry-note">
+                <span class="entry-note-label">{t('coursework')}</span> {entry.coursework[lang]}
+              </p>
+            )}
+            {entry.note && <p class="entry-note">{entry.note[lang]}</p>}
           </TimelineItem>
         ))
       }
@@ -177,7 +184,7 @@ const github = contacts.find((contact) => contact.id === 'github')!;
       }
     </ul>
     <div class="contact-cv">
-      <a class="btn btn-primary" href={person.cvFile} download>
+      <a class="btn btn-primary" href={person.cvFile[lang]} download>
         <Icon name="download" size={16} />
         {t('cv.download')}
       </a>

@@ -1,21 +1,23 @@
 // All CV content lives here, in English and Italian.
-// Source of truth: cv/scannable/cv.typ (the PDF offered for download is
-// cv/scannable/Sally_Mohammadzadeh_CV.pdf). Wrap `inline code` in backticks.
+// Source of truth: the two PDFs offered for download, public/Sally_Mohammadzadeh_CV.pdf
+// and public/Sally_Mohammadzadeh_CV_IT.pdf; keep this text in step with them.
+// Wrap `inline code` in backticks.
 import type { Localized, UiKey } from '../i18n/ui';
 import type { IconName } from '../components/icons';
 
 export const person = {
   name: 'Sally Mohammadzadeh',
-  cvFile: '/Sally_Mohammadzadeh_CV.pdf',
+  // The downloadable PDF follows the page language.
+  cvFile: { en: '/Sally_Mohammadzadeh_CV.pdf', it: '/Sally_Mohammadzadeh_CV_IT.pdf' } satisfies Localized,
   // Two lines on the page, split at " | ".
   tagline: {
-    en: 'Applied AI Engineer | Computer Engineering Student',
-    it: 'Applied AI Engineer | Studio Ingegneria Informatica',
+    en: 'Computer Engineering Student | Applied AI and Data',
+    it: 'Studentessa di Ingegneria Informatica | AI applicata e dati',
   },
   location: { en: 'Turin, Italy', it: 'Torino, Italia' },
   summary: {
-    en: 'Applied AI engineer and co-lead of a 6-person computer vision subteam at DIANA, the Politecnico di Torino rover team (4th of 126, European Rover Challenge (ERC) 2025). Builds end-to-end pipelines in Python, from field-collected data to trained YOLOv8 models and Dockerized ETL on PostgreSQL. Computer Engineering student, graduating in September 2027.',
-    it: 'Applied AI engineer e co-responsabile del sottoteam di computer vision (6 persone) di DIANA, il team rover del Politecnico di Torino (4º su 126 alla European Rover Challenge (ERC) 2025). Realizzo pipeline end-to-end in Python, dai dati raccolti sul campo ai modelli YOLOv8 addestrati, fino a pipeline ETL containerizzate con Docker su PostgreSQL. Studio Ingegneria Informatica, con laurea prevista a settembre 2027.',
+    en: 'Computer Engineering student who builds AI and data projects, from computer vision to data pipelines. Passionate about AI and data engineering, with a particular interest in robotics and space technology.',
+    it: 'Studentessa di Ingegneria Informatica con esperienza nello sviluppo di progetti di AI e gestione dei dati, dalla visione artificiale alle pipeline di dati. Appassionata di AI e ingegneria dei dati, con particolare interesse per la robotica e le tecnologie spaziali.',
   } satisfies Localized,
 };
 
@@ -62,31 +64,31 @@ export const contacts: Contact[] = [
 
 export const experience = [
   {
-    role: 'Applied AI Engineer, Computer Vision Co-Lead',
+    role: { en: 'Applied AI Engineer', it: 'Sviluppatrice di AI applicata' } satisfies Localized,
     org: { en: 'DIANA Student Robotics Team', it: 'DIANA, team studentesco di robotica' } satisfies Localized,
     place: 'Politecnico di Torino',
     start: '2023-10',
-    end: null,
+    end: '2026-01',
     points: [
       {
-        en: '4th of 126 teams at ERC 2025: built the rover’s YOLOv8 probe-detection pipeline.',
-        it: '4º su 126 squadre all’ERC 2025: ho realizzato la pipeline YOLOv8 per il rilevamento delle sonde del rover.',
+        en: 'Built the computer vision pipeline for the rover’s object-detection task.',
+        it: 'Sviluppata la pipeline di visione artificiale del rover per il rilevamento di oggetti.',
       },
       {
-        en: 'Selected YOLOv8, CVAT and OpenCV through AI-assisted research comparing detection and annotation tools.',
-        it: 'Ho scelto YOLOv8, CVAT e OpenCV con una ricerca assistita dall’AI che ha messo a confronto strumenti di rilevamento e di annotazione.',
+        en: 'Contributed to the team’s 4th place out of 126 at the European Rover Challenge (ERC) 2025.',
+        it: 'Contributo al 4º posto su 126 ottenuto dal team all’European Rover Challenge (ERC) 2025.',
       },
       {
-        en: 'Ran every stage: field data collection, CVAT annotation and quality control, augmentation, training.',
-        it: 'Ho seguito ogni fase: raccolta dei dati sul campo, annotazione e controllo qualità con CVAT, data augmentation, addestramento.',
+        en: 'Collected field images of the probe, annotated them in CVAT and applied data augmentation.',
+        it: 'Raccolte sul campo immagini della sonda e annotate in CVAT, applicando tecniche di data augmentation.',
       },
       {
-        en: 'Co-led the 6-person computer vision subteam, coordinating with mechanical and software subteams.',
-        it: 'Ho co-guidato il sottoteam di computer vision (6 persone), coordinandomi con i sottoteam di meccanica e software.',
+        en: 'Trained a YOLOv8 probe-detection model on the annotated dataset using PyTorch.',
+        it: 'Addestrato un modello YOLOv8 per il rilevamento della sonda sul dataset annotato, usando PyTorch.',
       },
       {
-        en: 'Developed and coded the rover arm’s inverse-kinematics simulation in MATLAB/Simulink, both self-taught.',
-        it: 'Ho sviluppato e programmato la simulazione della cinematica inversa del braccio del rover in MATLAB/Simulink, entrambi imparati in autonomia.',
+        en: 'Built an inverse-kinematics simulation in MATLAB/Simulink for a 6-DoF arm used to collect detected probes.',
+        it: 'Sviluppata una simulazione di cinematica inversa in MATLAB/Simulink per un braccio a 6 gradi di libertà destinato alla raccolta delle sonde rilevate.',
       },
     ] satisfies Localized[],
   },
@@ -94,65 +96,90 @@ export const experience = [
 
 export const projects = [
   {
-    title: 'SpaceX Launch Data Pipeline',
+    title: { en: 'SpaceX Launch Data Pipeline', it: 'Pipeline di dati sui lanci SpaceX' } satisfies Localized,
     kind: { en: 'Personal project', it: 'Progetto personale' } satisfies Localized,
     year: '2026',
     repo: 'https://github.com/sallyze/spacex-pipeline',
     points: [
       {
-        en: 'Engineered a Dockerized 4-stage ETL pipeline loading 205 SpaceX launches into two PostgreSQL 15 tables.',
-        it: 'Ho progettato una pipeline ETL in 4 fasi, containerizzata con Docker, che carica 205 lanci SpaceX in due tabelle PostgreSQL 15.',
+        en: 'Designed a 4-stage Python pipeline: collect, clean, store, display.',
+        it: 'Progettata una pipeline Python in 4 fasi: raccolta, pulizia, archiviazione e visualizzazione.',
       },
       {
-        en: 'Created a Streamlit dashboard with KPI metrics and yearly launch-success charts, queried from PostgreSQL.',
-        it: 'Ho creato una dashboard Streamlit con KPI e grafici annuali sul successo dei lanci, con i dati letti da PostgreSQL.',
+        en: 'Collected data from a public REST API and cleaned it with Pandas.',
+        it: 'Raccolti dati da un’API REST pubblica ed eseguita la pulizia con Pandas.',
       },
       {
-        en: 'Packaged the full stack to start with one command: `docker compose up`.',
-        it: 'Ho reso l’intero stack avviabile con un solo comando: `docker compose up`.',
+        en: 'Stored data on 205 launches in two PostgreSQL tables using SQLAlchemy.',
+        it: 'Archiviati i dati di 205 lanci in due tabelle PostgreSQL tramite SQLAlchemy.',
+      },
+      {
+        en: 'Ran the database using Docker Compose for a repeatable setup.',
+        it: 'Avviato il database tramite Docker Compose per una configurazione riproducibile.',
+      },
+      {
+        en: 'Built a Streamlit dashboard showing annual launch counts and successful launches from 2006 to 2022.',
+        it: 'Creata una dashboard Streamlit con il numero annuo di lanci e di lanci riusciti dal 2006 al 2022.',
       },
     ] satisfies Localized[],
-    stack: ['Python', 'Pandas', 'PostgreSQL', 'Docker', 'Streamlit', 'REST API'],
+    stack: ['Python', 'Pandas', 'PostgreSQL', 'SQLAlchemy', 'Docker Compose', 'Streamlit', { en: 'REST API', it: 'API REST' }],
   },
   {
-    title: 'Triple DES (3DES) Encryption in Pure Python',
+    title: {
+      en: 'Triple DES (3DES) Encryption in Pure Python',
+      it: 'Crittografia Triple DES (3DES) in Python puro',
+    } satisfies Localized,
     kind: { en: 'University project', it: 'Progetto universitario' } satisfies Localized,
     year: '2025',
     repo: 'https://github.com/sallyze/cryptography-Triple-DES',
     points: [
       {
-        en: 'Implemented 3DES encryption and decryption from scratch, with no external libraries.',
-        it: 'Ho implementato da zero cifratura e decifratura 3DES, senza librerie esterne.',
+        en: 'Implemented 3DES encryption and decryption from scratch in Python, with no external libraries.',
+        it: 'Implementate da zero la cifratura e la decifratura 3DES in Python, senza librerie esterne.',
       },
       {
-        en: 'Coded each DES component by hand: S-boxes, Feistel network, permutations, 48-round key scheduling.',
-        it: 'Ho scritto a mano ogni componente del DES: S-box, rete di Feistel, permutazioni, key scheduling a 48 round.',
-      },
-      {
-        en: 'Added ECB mode and optional PKCS-style padding, and documented the design in a technical report.',
-        it: 'Ho aggiunto la modalità ECB e un padding opzionale in stile PKCS, e ho documentato il progetto in una relazione tecnica.',
+        en: 'Implemented the S-boxes and Feistel network, added ECB mode, and wrote a technical report.',
+        it: 'Implementate le S-box e la rete di Feistel, aggiunta la modalità ECB e redatta una relazione tecnica.',
       },
     ] satisfies Localized[],
     stack: ['Python', { en: 'Cryptography', it: 'Crittografia' } satisfies Localized],
   },
 ];
 
-export const education = [
+export const education: {
+  degree: Localized;
+  school: string;
+  url?: string;
+  place: Localized;
+  /** "2022-09", or just "2023" when the CV gives only the year. Optional. */
+  start?: string;
+  end: string;
+  expected?: boolean;
+  coursework?: Localized;
+  note?: Localized;
+}[] = [
   {
-    degree: {
-      en: 'BSc in Computer Engineering',
-      it: 'Laurea triennale in Ingegneria Informatica',
-    } satisfies Localized,
+    degree: { en: 'BSc in Computer Engineering', it: 'Laurea triennale in Ingegneria Informatica' },
     school: 'Politecnico di Torino',
     url: 'https://www.polito.it',
-    location: { en: 'Turin, Italy', it: 'Torino, Italia' } satisfies Localized,
+    place: { en: 'Turin, Italy', it: 'Torino, Italia' },
     start: '2022-09',
     end: '2027-09',
     expected: true,
     coursework: {
-      en: 'Databases, Algorithms & Data Structures, Object-Oriented Programming, Computer Architecture, Cybersecurity',
-      it: 'Basi di dati, Algoritmi e strutture dati, Programmazione a oggetti, Architetture dei calcolatori, Cybersecurity',
-    } satisfies Localized,
+      en: 'Databases, Algorithms & Data Structures, Object-Oriented Programming, Computer Architecture, Cybersecurity, Computer Networks, Mathematics, Algebra',
+      it: 'Basi di dati, Algoritmi e strutture dati, Programmazione orientata agli oggetti, Architettura dei calcolatori, Sicurezza informatica, Reti di calcolatori, Matematica, Algebra',
+    },
+  },
+  {
+    degree: { en: 'Diploma in Experimental Sciences', it: 'Diploma in Scienze Sperimentali' },
+    school: 'NODET',
+    place: { en: 'Merit-selective school', it: 'Scuola con selezione per merito' },
+    end: '2023',
+    note: {
+      en: 'High school diploma · Grade: 19.67/20 (98.35%)',
+      it: 'Diploma di scuola secondaria superiore · Voto: 19,67/20 (98,35%)',
+    },
   },
 ];
 
@@ -164,24 +191,24 @@ export const certifications = [
 
 export const skillGroups: { name: Localized; icon: IconName; items: (string | Localized)[] }[] = [
   {
-    name: { en: 'Programming', it: 'Programmazione' },
+    name: { en: 'Programming & Data', it: 'Programmazione e dati' },
     icon: 'code',
-    items: ['Python', 'C', 'SQL', 'MATLAB/Simulink'],
+    items: ['Python', 'C', 'SQL', 'PostgreSQL', 'SQLAlchemy', 'MATLAB/Simulink'],
   },
   {
-    name: { en: 'ML & Computer Vision', it: 'ML e Computer Vision' },
+    name: { en: 'AI & Computer Vision', it: 'AI e visione artificiale' },
     icon: 'scan-eye',
-    items: ['PyTorch', 'YOLOv8', 'OpenCV', 'NumPy', 'Pandas', 'CVAT'],
+    items: [{ en: 'Claude API', it: 'API di Claude' }, 'PyTorch', 'YOLOv8', 'OpenCV', 'NumPy', 'Pandas', 'CVAT'],
   },
   {
-    name: { en: 'Data & Tools', it: 'Dati e strumenti' },
-    icon: 'database',
-    items: ['PostgreSQL', 'Docker', 'Streamlit', { en: 'REST APIs', it: 'REST API' }, 'Git/GitHub'],
+    name: { en: 'Tools', it: 'Strumenti' },
+    icon: 'wrench',
+    items: ['Docker', 'Streamlit', { en: 'REST APIs', it: 'API REST' }, 'Git/GitHub', 'Linux CLI', 'Word', 'Excel', 'PowerPoint'],
   },
 ];
 
 export const spokenLanguages: { name: Localized; level: Localized }[] = [
-  { name: { en: 'Italian', it: 'Italiano' }, level: { en: 'A2 – studying', it: 'A2 – in apprendimento' } },
+  { name: { en: 'Italian', it: 'Italiano' }, level: { en: 'B1 – studying', it: 'B1 – in corso di studio' } },
   { name: { en: 'English', it: 'Inglese' }, level: { en: 'C1 – IELTS 7.0', it: 'C1 – IELTS 7.0' } },
   { name: { en: 'Persian', it: 'Persiano' }, level: { en: 'Native', it: 'Madrelingua' } },
   { name: { en: 'Azerbaijani', it: 'Azero' }, level: { en: 'C1', it: 'C1' } },

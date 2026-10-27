@@ -10,9 +10,9 @@ export const homePath: Record<Lang, string> = { en: '/', it: '/it/' };
 const dateLocale: Record<Lang, string> = { en: 'en-US', it: 'it-IT' };
 
 const en = {
-  'meta.title': 'Sally Mohammadzadeh — Applied AI Engineer, Computer Engineering Student',
+  'meta.title': 'Sally Mohammadzadeh — Computer Engineering Student, Applied AI and Data',
   'meta.description':
-    'Applied AI engineer and Computer Engineering student at Politecnico di Torino: co-leads computer vision for the DIANA rover team (4th of 126 at ERC 2025) and builds data pipelines with Python, Docker and PostgreSQL.',
+    'Computer Engineering student at Politecnico di Torino who builds AI and data projects: computer vision for the DIANA rover team (4th of 126 at ERC 2025) and data pipelines with Python, PostgreSQL and Docker.',
   'skip': 'Skip to content',
   'home': 'Back to the top of the page',
   'nav.label': 'Sections',
@@ -53,9 +53,9 @@ const en = {
 export type UiKey = keyof typeof en;
 
 const it: Record<UiKey, string> = {
-  'meta.title': 'Sally Mohammadzadeh — Applied AI Engineer, Ingegneria Informatica',
+  'meta.title': 'Sally Mohammadzadeh — Studentessa di Ingegneria Informatica, AI applicata e dati',
   'meta.description':
-    'Applied AI engineer, studio Ingegneria Informatica al Politecnico di Torino: co-guido la computer vision del team rover DIANA (4º su 126 all’ERC 2025) e costruisco pipeline di dati con Python, Docker e PostgreSQL.',
+    'Studentessa di Ingegneria Informatica al Politecnico di Torino che sviluppa progetti di AI e dati: visione artificiale per il team rover DIANA (4º posto su 126 all’ERC 2025) e pipeline di dati con Python, PostgreSQL e Docker.',
   'skip': 'Vai al contenuto',
   'home': 'Torna all’inizio della pagina',
   'nav.label': 'Sezioni',
@@ -66,7 +66,7 @@ const it: Record<UiKey, string> = {
   'section.skills': 'Competenze',
   'section.contact': 'Contatti',
   'cv.download': 'Scarica il CV',
-  'cv.format': 'PDF di una pagina, in inglese',
+  'cv.format': 'PDF di una pagina',
   'contact.links': 'Link di contatto',
   'theme.label': 'Tema',
   'theme.system': 'Sistema',
@@ -76,7 +76,7 @@ const it: Record<UiKey, string> = {
   'expected': 'prevista',
   'code': 'Codice',
   'projects.more': 'Altro su GitHub',
-  'coursework': 'Insegnamenti principali:',
+  'coursework': 'Insegnamenti rilevanti:',
   'skills.languages': 'Lingue',
   'contact.lead': 'Disponibile per tirocini in AI e data engineering.',
   'contact.email': 'Email',
@@ -99,9 +99,10 @@ export function useTranslations(lang: Lang) {
   return (key: UiKey) => ui[lang][key];
 }
 
-/** "2023-10" → "Oct 2023" / "ott 2023" */
+/** "2023-10" → "Oct 2023" / "ott 2023"; a bare year ("2023") stays as it is. */
 export function formatMonth(isoMonth: string, lang: Lang) {
   const [year, month] = isoMonth.split('-').map(Number);
+  if (!month) return String(year);
   return new Intl.DateTimeFormat(dateLocale[lang], {
     month: 'short',
     year: 'numeric',

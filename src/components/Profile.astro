@@ -53,7 +53,7 @@ const [role, focus] = person.tagline[lang].split(' | ');
   <p class="profile-summary">{person.summary[lang]}</p>
 
   <div class="profile-actions">
-    <a class="btn btn-primary" href={person.cvFile} download title={t('cv.format')}>
+    <a class="btn btn-primary" href={person.cvFile[lang]} download title={t('cv.format')}>
       <Icon name="download" size={16} />
       {t('cv.download')}
     </a>

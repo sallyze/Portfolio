@@ -7,7 +7,7 @@ import { useTranslations, type Lang, type Localized } from '../i18n/ui';
 
 interface Props {
   lang: Lang;
-  title: string;
+  title: Localized;
   kind: Localized;
   year: string;
   repo: string;
@@ -27,7 +27,7 @@ const repoPath = new URL(repo).pathname.slice(1);
     <span>{kind[lang]}</span>
   </p>
   <div class="project-head">
-    <h3 class="project-title">{title}</h3>
+    <h3 class="project-title">{title[lang]}</h3>
     <a class="project-repo" href={repo} target="_blank" rel="noopener noreferrer">
       <Icon name="github" size={14} />
       <span class="u-link">{repoPath}</span>

@@ -5,7 +5,8 @@ import { formatMonth, useTranslations, type Lang } from '../i18n/ui';
 
 interface Props {
   lang: Lang;
-  start: string;
+  /** Left out when only the end is known, e.g. a diploma year. */
+  start?: string;
   end: string | null;
   /** The end date is a forecast, e.g. an expected graduation. */
   expected?: boolean;
@@ -22,8 +23,8 @@ const t = useTranslations(lang);
   </div>
   <div class="timeline-content">
     <p class="timeline-date">
-      <time datetime={start}>{formatMonth(start, lang)}</time>
-      <span aria-hidden="true">–</span>
+      {start && <time datetime={start}>{formatMonth(start, lang)}</time>}
+      {start && <span aria-hidden="true">–</span>}
       {end ? <time datetime={end}>{formatMonth(end, lang)}</time> : <span>{t('present')}</span>}
       {end && expected && <span>({t('expected')})</span>}
     </p>
@@ -64,8 +65,8 @@ const t = useTranslations(lang);
     transform: translateX(-50%);
   }
 
-  /* Each timeline here has a single, ongoing entry: fade the rail out rather
-     than hiding it, so it reads as continuing. */
+  /* Fade the rail out under the last entry rather than hiding it, so it reads
+     as continuing. */
   .timeline-item:last-child .timeline-line {
     mask-image: linear-gradient(#000 60%, transparent);
   }

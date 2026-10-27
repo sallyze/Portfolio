@@ -20,6 +20,7 @@ const site = Astro.site ?? new URL('https://sallyze.dev');
 const canonical = new URL(homePath[lang], site);
 const ogImage = new URL((await getImage({ src: photo, width: 460, height: 460, format: 'jpg' })).src, site);
 
+const [jobTitle] = person.tagline[lang].split(' | ');
 const profileUrls = contacts.filter((c) => c.id === 'github' || c.id === 'linkedin').map((c) => c.href);
 
 const structuredData = {
@@ -28,7 +29,7 @@ const structuredData = {
   name: person.name,
   url: new URL('/', site).href,
   image: ogImage.href,
-  jobTitle: 'Applied AI Engineer',
+  jobTitle,
   email: 'mailto:sallyze.dev@gmail.com',
   telephone: '+39 340 196 2592',
   address: { '@type': 'PostalAddress', addressLocality: 'Turin', addressCountry: 'IT' },
