@@ -163,7 +163,7 @@ export const education: {
     school: 'Politecnico di Torino',
     url: 'https://www.polito.it',
     place: { en: 'Turin, Italy', it: 'Torino, Italia' },
-/*    start: '2022-09', */
+    start: '2022-09',
     end: '2027-09',
     expected: true,
     coursework: {
