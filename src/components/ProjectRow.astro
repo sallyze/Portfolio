@@ -50,6 +50,22 @@ const repoPath = new URL(repo).pathname.slice(1);
   .project {
     display: flex;
     flex-direction: column;
+    padding: 1.25rem 1.45rem 1.25rem 2.2rem;
+    border: 1px solid var(--border);
+    border-radius: 0.85rem;
+    background: var(--bg-surface);
+    box-shadow: var(--card-shadow);
+    transition: border-color 220ms var(--ease);
+  }
+
+  .project:is(:hover, :focus-within) {
+    border-color: color-mix(in oklab, var(--accent) 32%, var(--border));
+  }
+
+  @media (max-width: 480px) {
+    .project {
+      padding: 1.1rem 1.2rem;
+    }
   }
 
   .project-meta {

@@ -16,8 +16,8 @@ export const person = {
   },
   location: { en: 'Turin, Italy', it: 'Torino, Italia' },
   summary: {
-    en: 'Computer Engineering student who builds AI and data projects, from computer vision to data pipelines. Passionate about AI and data engineering, with a particular interest in robotics and space technology.',
-    it: 'Studentessa di Ingegneria Informatica con esperienza nello sviluppo di progetti di AI e gestione dei dati, dalla visione artificiale alle pipeline di dati. Appassionata di AI e ingegneria dei dati, con particolare interesse per la robotica e le tecnologie spaziali.',
+    en: 'Practical experience building working software, from computer vision to data pipelines. Available for internships in AI, data, or software teams.',
+    it: 'Esperienza pratica nello sviluppo di software, dalla visione artificiale alle pipeline di dati. Disponibile per stage in team AI, dati o software.',
   } satisfies Localized,
 };
 
@@ -138,8 +138,8 @@ export const projects = [
         it: 'Implementate da zero la cifratura e la decifratura 3DES in Python, senza librerie esterne.',
       },
       {
-        en: 'Implemented the S-boxes and Feistel network, added ECB mode, and wrote a technical report.',
-        it: 'Implementate le S-box e la rete di Feistel, aggiunta la modalità ECB e redatta una relazione tecnica.',
+        en: 'Implemented the S-boxes, Feistel network, and ECB mode of operation.',
+        it: 'Implementate le S-box, la rete di Feistel e la modalità operativa ECB.',
       },
     ] satisfies Localized[],
     stack: ['Python', { en: 'Cryptography', it: 'Crittografia' } satisfies Localized],
@@ -163,22 +163,11 @@ export const education: {
     school: 'Politecnico di Torino',
     url: 'https://www.polito.it',
     place: { en: 'Turin, Italy', it: 'Torino, Italia' },
-    //start: '2022-09',
-    end: '2027',
+    end: '2027-09',
     expected: true,
     coursework: {
-      en: 'Databases, Algorithms & Data Structures, Object-Oriented Programming, Computer Architecture, Cybersecurity, Computer Networks, Mathematics, Algebra',
-      it: 'Basi di dati, Algoritmi e strutture dati, Programmazione orientata agli oggetti, Architettura dei calcolatori, Sicurezza informatica, Reti di calcolatori, Matematica, Algebra',
-    },
-  },
-  {
-    degree: { en: 'Diploma in Experimental Sciences', it: 'Diploma in Scienze Sperimentali' },
-    school: 'NODET',
-    place: { en: 'Merit-selective school', it: 'Scuola con selezione per merito' },
-    end: '2023',
-    note: {
-      en: 'High school diploma · Grade: 19.67/20 (98.35%)',
-      it: 'Diploma di scuola secondaria superiore · Voto: 19,67/20 (98,35%)',
+      en: 'Databases, Algorithms & Data Structures, Object-Oriented Programming, Computer Architecture, Cybersecurity, Computer Networks',
+      it: 'Basi di dati, Algoritmi e strutture dati, Programmazione orientata agli oggetti, Architettura dei calcolatori, Sicurezza informatica, Reti di calcolatori',
     },
   },
 ];
@@ -193,22 +182,22 @@ export const skillGroups: { name: Localized; icon: IconName; items: (string | Lo
   {
     name: { en: 'Programming & Data', it: 'Programmazione e dati' },
     icon: 'code',
-    items: ['Python', 'C', 'SQL', 'PostgreSQL', 'SQLAlchemy', 'MATLAB/Simulink'],
+    items: ['Python', 'Java', 'C', 'SQL', 'PostgreSQL', 'SQLAlchemy', 'MATLAB/Simulink'],
   },
   {
     name: { en: 'AI & Computer Vision', it: 'AI e visione artificiale' },
     icon: 'scan-eye',
-    items: [{ en: 'Claude API', it: 'API di Claude' }, 'PyTorch', 'YOLOv8', 'OpenCV', 'NumPy', 'Pandas', 'CVAT'],
+    items: ['PyTorch', 'YOLOv8', 'OpenCV', 'NumPy', 'Pandas', 'CVAT'],
   },
   {
     name: { en: 'Tools', it: 'Strumenti' },
     icon: 'wrench',
-    items: ['Docker', 'Streamlit', { en: 'REST APIs', it: 'API REST' }, 'Git/GitHub', 'Linux CLI', 'Word', 'Excel', 'PowerPoint'],
+    items: ['Docker', 'Streamlit', { en: 'REST APIs', it: 'API REST' }, 'Git/GitHub', 'Linux CLI'],
   },
 ];
 
 export const spokenLanguages: { name: Localized; level: Localized }[] = [
-  { name: { en: 'Italian', it: 'Italiano' }, level: { en: 'B1 – studying', it: 'B1 – in corso di studio' } },
+  { name: { en: 'Italian', it: 'Italiano' }, level: { en: 'A2 – studying', it: 'A2 – in corso di studio' } },
   { name: { en: 'English', it: 'Inglese' }, level: { en: 'C1 – IELTS 7.0', it: 'C1 – IELTS 7.0' } },
   { name: { en: 'Persian', it: 'Persiano' }, level: { en: 'Native', it: 'Madrelingua' } },
   { name: { en: 'Azerbaijani', it: 'Azero' }, level: { en: 'C1', it: 'C1' } },

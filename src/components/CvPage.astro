@@ -200,8 +200,18 @@ const github = contacts.find((contact) => contact.id === 'github')!;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    padding: 0;
+    padding: 1.35rem 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 0.85rem;
+    background: var(--bg-surface);
+    box-shadow: var(--card-shadow);
     list-style: none;
+  }
+
+  @media (max-width: 480px) {
+    .timeline {
+      padding: 1.1rem 1.15rem;
+    }
   }
 
   .entry-title {
@@ -237,16 +247,26 @@ const github = contacts.find((contact) => contact.id === 'github')!;
   .projects {
     display: flex;
     flex-direction: column;
-    gap: 1.75rem;
+    gap: 1rem;
   }
 
   /* ── Certifications (Scholar's inline updates: date beside text) ── */
   .certs {
     display: flex;
     flex-direction: column;
-    gap: 0.85rem;
-    padding: 0;
+    gap: 0.9rem;
+    padding: 1.25rem 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 0.85rem;
+    background: var(--bg-surface);
+    box-shadow: var(--card-shadow);
     list-style: none;
+  }
+
+  @media (max-width: 480px) {
+    .certs {
+      padding: 1.1rem 1.2rem;
+    }
   }
 
   .cert {
@@ -303,9 +323,11 @@ const github = contacts.find((contact) => contact.id === 'github')!;
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    padding: 0.85rem 1rem 1rem;
+    padding: 1rem 1.15rem 1.1rem;
     border: 1px solid var(--border);
-    border-radius: 0.75rem;
+    border-radius: 0.85rem;
+    background: var(--bg-surface);
+    box-shadow: var(--card-shadow);
   }
 
   .skill-card-title {
@@ -362,7 +384,9 @@ const github = contacts.find((contact) => contact.id === 'github')!;
   .contact-list {
     padding: 0;
     border: 1px solid var(--border);
-    border-radius: 0.75rem;
+    border-radius: 0.85rem;
+    background: var(--bg-surface);
+    box-shadow: var(--card-shadow);
     list-style: none;
     overflow: clip;
   }
@@ -461,7 +485,7 @@ const github = contacts.find((contact) => contact.id === 'github')!;
     height: 2rem;
     border: 1px solid var(--border);
     border-radius: 6px;
-    background: var(--bg-surface);
+    background: var(--bg);
     color: var(--text-muted);
   }
 
@@ -508,7 +532,7 @@ const github = contacts.find((contact) => contact.id === 'github')!;
 
   .copy-btn:hover {
     border-color: var(--border);
-    background: var(--bg-surface);
+    background: var(--bg);
     color: var(--accent);
   }
 
