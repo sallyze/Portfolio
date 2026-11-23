@@ -53,7 +53,7 @@ const t = useTranslations(lang);
     margin-top: 0.45rem;
     border: 2px solid var(--primary);
     border-radius: 50%;
-    background: var(--bg);
+    background: var(--bg-surface);
   }
 
   .timeline-line {
@@ -75,6 +75,10 @@ const t = useTranslations(lang);
     flex: 1;
     min-width: 0;
     padding-bottom: 0.75rem;
+  }
+
+  .timeline-item:last-child .timeline-content {
+    padding-bottom: 0;
   }
 
   .timeline-date {

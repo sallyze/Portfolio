@@ -6,7 +6,7 @@ import BackToTop from '../components/BackToTop.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import photo from '../assets/sally.jpeg';
-import { contacts, person } from '../data/cv';
+import { certifications, contacts, person, skillGroups } from '../data/cv';
 import { homePath, useTranslations, type Lang } from '../i18n/ui';
 
 interface Props {
@@ -18,24 +18,40 @@ const t = useTranslations(lang);
 
 const site = Astro.site ?? new URL('https://sallyze.dev');
 const canonical = new URL(homePath[lang], site);
-const ogImage = new URL((await getImage({ src: photo, width: 460, height: 460, format: 'jpg' })).src, site);
+const personImage = new URL((await getImage({ src: photo, width: 460, height: 460, format: 'jpg' })).src, site);
+const ogImage = new URL('/og-image.png', site);
 
 const [jobTitle] = person.tagline[lang].split(' | ');
 const profileUrls = contacts.filter((c) => c.id === 'github' || c.id === 'linkedin').map((c) => c.href);
 
+const allSkills = skillGroups.flatMap((g) => g.items.map((item) => (typeof item === 'string' ? item : item.en)));
+
 const structuredData = {
   '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: person.name,
-  url: new URL('/', site).href,
-  image: ogImage.href,
-  jobTitle,
-  email: 'mailto:sallyze.dev@gmail.com',
-  telephone: '+39 340 196 2592',
-  address: { '@type': 'PostalAddress', addressLocality: 'Turin', addressCountry: 'IT' },
-  affiliation: { '@type': 'CollegeOrUniversity', name: 'Politecnico di Torino', url: 'https://www.polito.it' },
-  sameAs: profileUrls,
-  knowsLanguage: ['fa', 'en', 'az', 'it'],
+  '@type': 'ProfilePage',
+  url: canonical.href,
+  inLanguage: lang,
+  mainEntity: {
+    '@type': 'Person',
+    name: person.name,
+    url: new URL('/', site).href,
+    image: personImage.href,
+    jobTitle,
+    description: person.summary[lang],
+    email: 'mailto:sallyze.dev@gmail.com',
+    telephone: '+39 340 196 2592',
+    address: { '@type': 'PostalAddress', addressLocality: 'Turin', addressCountry: 'IT' },
+    affiliation: { '@type': 'CollegeOrUniversity', name: 'Politecnico di Torino', url: 'https://www.polito.it' },
+    sameAs: profileUrls,
+    knowsLanguage: ['fa', 'en', 'az', 'it'],
+    knowsAbout: allSkills,
+    hasCredential: certifications.map((c) => ({
+      '@type': 'EducationalOccupationalCredential',
+      name: c.name,
+      recognizedBy: { '@type': 'Organization', name: c.issuer },
+      dateCreated: c.date,
+    })),
+  },
 };
 ---
 
@@ -47,6 +63,7 @@ const structuredData = {
     <title>{t('meta.title')}</title>
     <meta name="description" content={t('meta.description')} />
     <meta name="author" content={person.name} />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
     <link rel="canonical" href={canonical} />
     <link rel="alternate" hreflang="en" href={new URL(homePath.en, site)} />
     <link rel="alternate" hreflang="it" href={new URL(homePath.it, site)} />
@@ -54,30 +71,39 @@ const structuredData = {
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
 
     <meta property="og:type" content="profile" />
     <meta property="og:url" content={canonical} />
     <meta property="og:title" content={t('meta.title')} />
     <meta property="og:description" content={t('meta.description')} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${person.name} — ${person.tagline[lang]}`} />
     <meta property="og:locale" content={lang === 'it' ? 'it_IT' : 'en_US'} />
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImage} />
 
-    <!-- Runs before first paint so a stored choice never flashes. "system"
-         leaves data-theme unset and light-dark() follows the OS. The client
-         router replaces <html>'s attributes on every page swap, so the same
-         choice is stamped onto each incoming page before it is swapped in. -->
+    <!-- Runs before first paint so a stored choice never flashes. First-time
+         visitors inherit their OS colour scheme, then the toggle flips cleanly
+         between light and dark. The client router replaces <html>'s attributes
+         on every page swap, so the choice is stamped onto each incoming page. -->
     <script is:inline>
       (() => {
         const apply = (root) => {
-          let pref = 'system';
+          let mode = null;
           try {
             const stored = localStorage.getItem('theme');
-            if (stored === 'dark' || stored === 'light') pref = stored;
+            if (stored === 'dark' || stored === 'light') mode = stored;
           } catch {}
-          if (pref === 'system') delete root.dataset.theme;
-          else root.dataset.theme = pref;
-          root.dataset.themePref = pref;
+          if (!mode) mode = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          root.dataset.theme = mode;
         };
         apply(document.documentElement);
         document.addEventListener('astro:before-swap', (event) => apply(event.newDocument.documentElement));
@@ -97,6 +123,36 @@ const structuredData = {
     </main>
     <Footer lang={lang} />
     <BackToTop lang={lang} />
+    <script>
+      const setupReveal = () => {
+        if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        const targets = document.querySelectorAll<HTMLElement>('main .section, main .project');
+        if (!('IntersectionObserver' in window)) return;
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (!entry.isIntersecting) continue;
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          },
+          { rootMargin: '0px 0px -6% 0px', threshold: 0.04 },
+        );
+
+        for (const el of targets) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight * 0.94) {
+            el.classList.add('is-visible');
+          } else {
+            el.classList.add('reveal');
+            observer.observe(el);
+          }
+        }
+      };
+
+      document.addEventListener('astro:page-load', setupReveal);
+    </script>
   </body>
 </html>
 

@@ -1,6 +1,5 @@
 ---
-// One button, three states: System (follows the OS) -> Dark -> Light.
-// Light is Warm Paper, dark is Scholar Night (see global.css).
+// Two-state theme toggle: Light <-> Dark (first visit auto-matches OS preference).
 import Icon from './Icon.astro';
 import { useTranslations, type Lang } from '../i18n/ui';
 
@@ -9,8 +8,8 @@ interface Props {
 }
 
 const t = useTranslations(Astro.props.lang);
-const names = { system: t('theme.system'), dark: t('theme.dark'), light: t('theme.light') };
-const initial = `${t('theme.label')}: ${names.system}`;
+const names = { dark: t('theme.dark'), light: t('theme.light') };
+const initial = `${t('theme.label')}: ${names.light}`;
 ---
 
 <button
@@ -22,7 +21,6 @@ const initial = `${t('theme.label')}: ${names.system}`;
   aria-label={initial}
   title={initial}
 >
-  <Icon name="monitor" size={16} class="theme-icon icon-system" />
   <Icon name="moon" size={16} class="theme-icon icon-dark" />
   <Icon name="sun" size={16} class="theme-icon icon-light" />
 </button>
@@ -56,11 +54,10 @@ const initial = `${t('theme.label')}: ${names.system}`;
     grid-area: 1 / 1;
   }
 
-  /* The <head> script sets data-theme-pref before paint, so the right icon
+  /* The <head> script sets data-theme before paint, so the right icon
      shows immediately instead of swapping once this component's script runs. */
-  :global(html:not([data-theme-pref='dark'], [data-theme-pref='light'])) .theme-toggle :global(.icon-system),
-  :global([data-theme-pref='dark']) .theme-toggle :global(.icon-dark),
-  :global([data-theme-pref='light']) .theme-toggle :global(.icon-light) {
+  :global([data-theme='dark']) .theme-toggle :global(.icon-dark),
+  :global([data-theme='light']) .theme-toggle :global(.icon-light) {
     display: block;
   }
 
@@ -77,11 +74,10 @@ const initial = `${t('theme.label')}: ${names.system}`;
 </style>
 
 <script>
-  const order = ['system', 'dark', 'light'] as const;
-  type Mode = (typeof order)[number];
+  type Mode = 'dark' | 'light';
 
   const root = document.documentElement;
-  const current = (): Mode => order.find((m) => m === root.dataset.themePref) ?? 'system';
+  const current = (): Mode => (root.dataset.theme === 'dark' ? 'dark' : 'light');
 
   const label = (button: HTMLButtonElement, mode: Mode) => {
     const names = JSON.parse(button.dataset.names!) as Record<Mode, string>;
@@ -100,11 +96,8 @@ const initial = `${t('theme.label')}: ${names.system}`;
   document.addEventListener('click', (event) => {
     const button = (event.target as Element).closest<HTMLButtonElement>('[data-theme-toggle]');
     if (!button) return;
-    const mode = order[(order.indexOf(current()) + 1) % order.length];
-    // System drops the attribute so light-dark() follows the OS live.
-    if (mode === 'system') delete root.dataset.theme;
-    else root.dataset.theme = mode;
-    root.dataset.themePref = mode;
+    const mode: Mode = current() === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = mode;
     try {
       localStorage.setItem('theme', mode);
     } catch {

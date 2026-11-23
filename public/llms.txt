@@ -1,0 +1,55 @@
+# Sally Mohammadzadeh
+
+> Computer Engineering Student · Applied AI and Data (Politecnico di Torino, Turin, Italy).
+> Practical experience building working software, from computer vision to data pipelines. Available for internships in AI, data, or software teams.
+
+## Pages & Downloads
+- [English Portfolio & CV](https://sallyze.dev/)
+- [Italian Portfolio & CV](https://sallyze.dev/it/)
+- [English CV (PDF)](https://sallyze.dev/Sally_Mohammadzadeh_CV.pdf)
+- [Italian CV (PDF)](https://sallyze.dev/Sally_Mohammadzadeh_CV_IT.pdf)
+
+## Contact & Profiles
+- Website: https://sallyze.dev
+- Email: sallyze.dev@gmail.com
+- Phone: +39 340 196 2592
+- GitHub: https://github.com/sallyze
+- LinkedIn: https://www.linkedin.com/in/sallyze
+
+## Experience
+### Applied AI Engineer — DIANA Student Robotics Team (Politecnico di Torino)
+*Oct 2023 – Jan 2026*
+- Built the computer vision pipeline for the rover's object-detection task.
+- Contributed to the team's 4th place out of 126 at the European Rover Challenge (ERC) 2025.
+- Collected field images of the probe, annotated them in CVAT and applied data augmentation.
+- Trained a YOLOv8 probe-detection model on the annotated dataset using PyTorch.
+- Built an inverse-kinematics simulation in MATLAB/Simulink for a 6-DoF arm used to collect detected probes.
+
+## Projects
+### SpaceX Launch Data Pipeline (2026)
+- Repository: https://github.com/sallyze/spacex-pipeline
+- Designed a 4-stage Python pipeline: collect, clean, store, display.
+- Collected data from a public REST API and cleaned it with Pandas.
+- Stored data on 205 launches in two PostgreSQL tables using SQLAlchemy.
+- Ran the database using Docker Compose for a repeatable setup.
+- Built a Streamlit dashboard showing annual launch counts and successful launches from 2006 to 2022.
+
+### Triple DES (3DES) Encryption in Pure Python (2025)
+- Repository: https://github.com/sallyze/cryptography-Triple-DES
+- Implemented 3DES encryption and decryption from scratch in Python, with no external libraries.
+- Implemented the S-boxes, Feistel network, and ECB mode of operation.
+
+## Education
+- **BSc in Computer Engineering**, Politecnico di Torino, Turin — *Sep 2027 (expected)*
+  - Relevant coursework: Databases, Algorithms & Data Structures, Object-Oriented Programming, Computer Architecture, Cybersecurity, Computer Networks
+
+## Skills
+- **Programming & Data:** Python, Java, C, SQL, PostgreSQL, SQLAlchemy, MATLAB/Simulink
+- **AI & Computer Vision:** PyTorch, YOLOv8, OpenCV, NumPy, Pandas, CVAT
+- **Tools:** Docker, Streamlit, REST APIs, Git/GitHub, Linux CLI
+- **Languages:** Italian (A2, studying), English (C1, IELTS 7.0), Persian (native), Azerbaijani (C1)
+
+## Certifications
+- Building with the Claude API — Anthropic (May 2026)
+- SpaceCert — European Space Foundation (Sep 2025)
+- ERC Space & Robotics Industry Standard — European Rover Challenge (Sep 2024)
