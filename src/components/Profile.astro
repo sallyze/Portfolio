@@ -16,7 +16,7 @@ const t = useTranslations(lang);
 
 const byId = (id: string) => contacts.find((contact) => contact.id === id)!;
 const email = byId('email');
-const links = ['github', 'linkedin', 'email', 'phone'].map(byId);
+const links = ['github', 'linkedin', 'email'].map(byId);
 const [role, focus] = person.tagline[lang].split(' | ');
 ---
 

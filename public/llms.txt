@@ -12,7 +12,6 @@
 ## Contact & Profiles
 - Website: https://sallyze.dev
 - Email: sallyze.dev@gmail.com
-- Phone: +39 340 196 2592
 - GitHub: https://github.com/sallyze
 - LinkedIn: https://www.linkedin.com/in/sallyze
 
@@ -24,11 +23,12 @@
 - Collected field images of the probe, annotated them in CVAT and applied data augmentation.
 - Trained a YOLOv8 probe-detection model on the annotated dataset using PyTorch.
 - Built an inverse-kinematics simulation in MATLAB/Simulink for a 6-DoF arm used to collect detected probes.
+- Worked across a multidisciplinary team to align vision tasks and meet competition deadlines.
 
 ## Projects
 ### SpaceX Launch Data Pipeline (2026)
 - Repository: https://github.com/sallyze/spacex-pipeline
-- Designed a 4-stage Python pipeline: collect, clean, store, display.
+- Self-taught Docker, SQLAlchemy, and Streamlit to design a 4-stage Python pipeline: collect, clean, store, display.
 - Collected data from a public REST API and cleaned it with Pandas.
 - Stored data on 205 launches in two PostgreSQL tables using SQLAlchemy.
 - Ran the database using Docker Compose for a repeatable setup.
