@@ -22,7 +22,7 @@ export const person = {
 };
 
 export interface Contact {
-  id: 'email' | 'phone' | 'website' | 'github' | 'linkedin';
+  id: 'email' | 'website' | 'github' | 'linkedin';
   label: UiKey;
   icon: IconName;
   href: string;
@@ -41,15 +41,6 @@ export const contacts: Contact[] = [
     display: 'sallyze.dev@gmail.com',
     copy: 'sallyze.dev@gmail.com',
     copyLabel: 'copy.email',
-  },
-  {
-    id: 'phone',
-    label: 'contact.phone',
-    icon: 'phone',
-    href: 'tel:+393401962592',
-    display: '+39 340 196 2592',
-    copy: '+39 340 196 2592',
-    copyLabel: 'copy.phone',
   },
   { id: 'website', label: 'contact.website', icon: 'globe', href: 'https://sallyze.dev', display: 'sallyze.dev' },
   { id: 'github', label: 'contact.github', icon: 'github', href: 'https://github.com/sallyze', display: 'github.com/sallyze' },
@@ -90,6 +81,10 @@ export const experience = [
         en: 'Built an inverse-kinematics simulation in MATLAB/Simulink for a 6-DoF arm used to collect detected probes.',
         it: 'Sviluppata una simulazione di cinematica inversa in MATLAB/Simulink per un braccio a 6 gradi di libertà destinato alla raccolta delle sonde rilevate.',
       },
+      {
+        en: 'Worked across a multidisciplinary team to align vision tasks and meet competition deadlines.',
+        it: 'Collaborazione in un team multidisciplinare per allineare le attività di visione e rispettare le scadenze di gara.',
+      },
     ] satisfies Localized[],
   },
 ];
@@ -102,8 +97,8 @@ export const projects = [
     repo: 'https://github.com/sallyze/spacex-pipeline',
     points: [
       {
-        en: 'Designed a 4-stage Python pipeline: collect, clean, store, display.',
-        it: 'Progettata una pipeline Python in 4 fasi: raccolta, pulizia, archiviazione e visualizzazione.',
+        en: 'Self-taught Docker, SQLAlchemy, and Streamlit to design a 4-stage Python pipeline: collect, clean, store, display.',
+        it: 'Appresi in autonomia Docker, SQLAlchemy e Streamlit per progettare una pipeline Python in 4 fasi: raccolta, pulizia, archiviazione e visualizzazione.',
       },
       {
         en: 'Collected data from a public REST API and cleaned it with Pandas.',
